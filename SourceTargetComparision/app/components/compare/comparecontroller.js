@@ -6,6 +6,8 @@
     function compareCtrlFunction(compareservicefactory, $scope) {
         $scope.source = [];
         $scope.target = [];
+        $scope.final = [];
+
         $scope.sourceFileName = '';
         $scope.sourceDelimeter = '';
         $scope.targetDelimeter = '';
@@ -49,11 +51,11 @@
                 });
         }
         $scope.loadFiles();
-        $scope.$watch('target', function (newVal, oldVal) {
-            if (newVal) {
-                console.log(newVal);
-            }
-        });
+
+        $scope.showJSON = function () {
+            $scope.txtFinal = angular.toJson($scope.final);
+        };
+        
     }
 
 }());

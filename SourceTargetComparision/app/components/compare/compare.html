@@ -19,7 +19,7 @@
                         <li ng-repeat="item in source"
                             dnd-draggable="item"
                             dnd-moved="source.splice($index, 1)"
-                            dnd-effect-allowed="move"
+                            dnd-effect-allowed="copy"
                             dnd-selected="models.selected = item"
                             ng-class="{'selected': models.selected === item}">
                             Name: {{item.name}} , Type: {{ item.type }}
@@ -46,7 +46,7 @@
                         <li ng-repeat="item in target"
                             dnd-draggable="item"
                             dnd-moved="target.splice($index, 1)"
-                            dnd-effect-allowed="move"
+                            dnd-effect-allowed="copy"
                             dnd-selected="models.selected = item"
                             ng-class="{'selected': models.selected === item}">
                             Name: {{item.name}} , Type: {{ item.type }}
@@ -54,6 +54,42 @@
                     </ul>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row simpleDemo">
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Final 
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <!-- The dnd-list directive allows to drop elements into it.
+                    The dropped data will be added to the referenced list -->
+                    <ul dnd-list="final">
+                        <!-- The dnd-draggable directive makes an element draggable and will
+                        transfer the object that was assigned to it. If an element was
+                        dragged away, you have to remove it from the original list
+                        yourself using the dnd-moved attribute -->
+                        <li ng-repeat="item in final"
+                            dnd-draggable="item"
+                            dnd-effect-allowed="copy"
+                            dnd-selected="models.selected = item"
+                            ng-class="{'selected': models.selected === item}">
+                            Name: {{item.name}} , Type: {{ item.type }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <button type="button" class="btn btn-primary" ng-click="showJSON()">
+                Show JSON
+            </button>
+            <textarea id="txtFinal" ng-model="txtFinal">
+
+            </textarea>
         </div>
     </div>
 </div>
