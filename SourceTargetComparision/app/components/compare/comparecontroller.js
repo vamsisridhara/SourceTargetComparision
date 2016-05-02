@@ -195,7 +195,6 @@
                 files.Files.push({ 'List': list, 'Relationship': '' });
                 console.log(files);
                 $scope.txtFinal = angular.toJson(files);
-
             }
         };
     }
