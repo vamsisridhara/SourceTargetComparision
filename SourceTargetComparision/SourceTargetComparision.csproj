@@ -75,10 +75,13 @@
     <Content Include="assets\libs\angular-animate.min.js" />
     <Content Include="assets\libs\angular-material.min.js" />
     <Content Include="assets\libs\angular-messages.min.js" />
+    <Content Include="assets\libs\underscore-min.js" />
     <Content Include="home.html" />
     <Content Include="packages.config" />
-    <Content Include="app\components\compare\test_s_md.json" />
-    <Content Include="app\components\compare\test_t_md.json" />
+    <Content Include="app\components\compare\test_s_md_2.json" />
+    <Content Include="app\components\compare\test_t_md_2.json" />
+    <Content Include="app\components\compare\test_s_md_1.json" />
+    <Content Include="app\components\compare\test_t_md_1.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -102,6 +105,7 @@
     <Content Include="assets\libs\jquery-2.1.4.min.js" />
     <Content Include="assets\libs\ng-sortable.min.js" />
     <Content Include="index.html" />
+    <Content Include="test.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

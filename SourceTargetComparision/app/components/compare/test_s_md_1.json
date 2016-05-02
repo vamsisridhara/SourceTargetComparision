@@ -1,0 +1,42 @@
+{
+  "FileName": "test_s1.txt",
+  "FileDelimiter": "|",
+  "AttributeCount": "5",
+  "Attributes": [
+    {
+      "Name": "FIELD1",
+      "DataType": "Decimal",
+      "MinValue": "",
+      "MaxValue": "",
+      "NullPercentage": ""
+    },
+    {
+      "Name": "FIELD2",
+      "DataType": "Decimal",
+      "MinValue": "",
+      "MaxValue": "",
+      "NullPercentage": ""
+    },
+    {
+      "Name": "FIELD3",
+      "DataType": "String",
+      "MinValue": "",
+      "MaxValue": "",
+      "NullPercentage": ""
+    },
+    {
+      "Name": "FIELD4",
+      "DataType": "Decimal",
+      "MinValue": "",
+      "MaxValue": "",
+      "NullPercentage": ""
+    },
+    {
+      "Name": "FIELD5",
+      "DataType": "String",
+      "MinValue": "",
+      "MaxValue": "",
+      "NullPercentage": ""
+    }
+  ]
+}

@@ -1,55 +1,109 @@
 ﻿<h1>compare</h1>
-<div class="col-md-8">
+<div class="col-md-12">
     <div class="row simpleDemo">
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        Source : {{ sourceFileName }}, Delimeter: {{ sourceDelimeter }}
+                        Source : {{ sourceFileName1 }}
                     </h3>
                 </div>
                 <div class="panel-body">
                     <!-- The dnd-list directive allows to drop elements into it.
                     The dropped data will be added to the referenced list -->
-                    <ul dnd-list="source">
+                    <ul dnd-list="sourceFile1">
                         <!-- The dnd-draggable directive makes an element draggable and will
                         transfer the object that was assigned to it. If an element was
                         dragged away, you have to remove it from the original list
                         yourself using the dnd-moved attribute -->
-                        <li ng-repeat="item in source"
+                        <li ng-repeat="item in sourceFile1"
                             dnd-draggable="item"
-                            dnd-moved="source.splice($index, 1)"
+                            dnd-moved="sourceFile1.splice($index, 1)"
                             dnd-effect-allowed="copy"
                             dnd-selected="models.selected = item"
                             ng-class="{'selected': models.selected === item}">
-                            Name: {{item.name}} , Type: {{ item.type }}
+                            Name: {{item.name}}
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        Target : {{ targetFileName }}, Delimeter: {{ targetDelimeter }}
+                        Target : {{ targetFileName1 }}
                     </h3>
                 </div>
                 <div class="panel-body">
                     <!-- The dnd-list directive allows to drop elements into it.
                     The dropped data will be added to the referenced list -->
-                    <ul dnd-list="target">
+                    <ul dnd-list="targetFile1">
                         <!-- The dnd-draggable directive makes an element draggable and will
                         transfer the object that was assigned to it. If an element was
                         dragged away, you have to remove it from the original list
                         yourself using the dnd-moved attribute -->
-                        <li ng-repeat="item in target"
+                        <li ng-repeat="item in targetFile1"
                             dnd-draggable="item"
-                            dnd-moved="target.splice($index, 1)"
+                            dnd-moved="targetFile1.splice($index, 1)"
                             dnd-effect-allowed="copy"
                             dnd-selected="models.selected = item"
                             ng-class="{'selected': models.selected === item}">
-                            Name: {{item.name}} , Type: {{ item.type }}
+                            Name: {{item.name}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Source : {{ sourceFileName2 }}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <!-- The dnd-list directive allows to drop elements into it.
+                    The dropped data will be added to the referenced list -->
+                    <ul dnd-list="sourceFile2">
+                        <!-- The dnd-draggable directive makes an element draggable and will
+                        transfer the object that was assigned to it. If an element was
+                        dragged away, you have to remove it from the original list
+                        yourself using the dnd-moved attribute -->
+                        <li ng-repeat="item in sourceFile2"
+                            dnd-draggable="item"
+                            dnd-moved="sourceFile2.splice($index, 1)"
+                            dnd-effect-allowed="copy"
+                            dnd-selected="models.selected = item"
+                            ng-class="{'selected': models.selected === item}">
+                            Name: {{item.name}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Target : {{ targetFileName2 }}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <!-- The dnd-list directive allows to drop elements into it.
+                    The dropped data will be added to the referenced list -->
+                    <ul dnd-list="targetFile2">
+                        <!-- The dnd-draggable directive makes an element draggable and will
+                        transfer the object that was assigned to it. If an element was
+                        dragged away, you have to remove it from the original list
+                        yourself using the dnd-moved attribute -->
+                        <li ng-repeat="item in targetFile2"
+                            dnd-draggable="item"
+                            dnd-moved="targetFile2.splice($index, 1)"
+                            dnd-effect-allowed="copy"
+                            dnd-selected="models.selected = item"
+                            ng-class="{'selected': models.selected === item}">
+                            Name: {{item.name}}
                         </li>
                     </ul>
                 </div>
@@ -61,39 +115,64 @@
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        Final 
+                        Final Source
                     </h3>
                 </div>
                 <div class="panel-body">
                     <!-- The dnd-list directive allows to drop elements into it.
                     The dropped data will be added to the referenced list -->
-                    <ul dnd-list="final">
+                    <ul dnd-list="finalSource">
                         <!-- The dnd-draggable directive makes an element draggable and will
                         transfer the object that was assigned to it. If an element was
                         dragged away, you have to remove it from the original list
                         yourself using the dnd-moved attribute -->
-                        <li ng-repeat="item in final"
+                        <li ng-repeat="item in finalSource"
                             dnd-draggable="item"
                             dnd-effect-allowed="copy"
                             dnd-selected="models.selected = item"
                             ng-class="{'selected': models.selected === item}">
-                            Name: {{item.name}} , Type: {{ item.type }}
+                            Name: {{item.name}}
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <button type="button" class="btn btn-primary" ng-click="showJSON()">
-                Show JSON
-            </button>
-            <textarea id="txtFinal" ng-model="txtFinal">
-
-            </textarea>
+        <div class="row simpleDemo">
+            <div class="col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Final Target
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <!-- The dnd-list directive allows to drop elements into it.
+                        The dropped data will be added to the referenced list -->
+                        <ul dnd-list="finalTarget">
+                            <!-- The dnd-draggable directive makes an element draggable and will
+                            transfer the object that was assigned to it. If an element was
+                            dragged away, you have to remove it from the original list
+                            yourself using the dnd-moved attribute -->
+                            <li ng-repeat="item in finalTarget"
+                                dnd-draggable="item"
+                                dnd-effect-allowed="copy"
+                                dnd-selected="models.selected = item"
+                                ng-class="{'selected': models.selected === item}">
+                                Name: {{item.name}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary" ng-click="showJSON()">
+                    Show JSON
+                </button>
+                <textarea id="txtFinal" ng-model="txtFinal"></textarea>
+            </div>
         </div>
     </div>
 </div>
-
 <style>
     /**
     * For the correct positioning of the placeholder element, the dnd-list and
