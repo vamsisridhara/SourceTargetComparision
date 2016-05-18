@@ -4,30 +4,31 @@
     app.controller('compareController',
                     ['compareservicefactory', '$scope', compareCtrlFunction]);
     function compareCtrlFunction(compareservicefactory, $scope) {
-        $scope.sourceFile1 = [];
-        $scope.targetFile1 = [];
-        $scope.sourceFile2 = [];
-        $scope.targetFile2 = [];
+        function init() {
+            $scope.sourceFile1 = [];
+            $scope.targetFile1 = [];
+            //$scope.sourceFile2 = [];
+            //$scope.targetFile2 = [];
 
-        $scope.finalSource = [];
-        $scope.finalTarget = [];
+            $scope.finalSource = [];
+            $scope.finalTarget = [];
 
-        $scope.sourceFileName1 = '';
-        $scope.sourceDelimeter1 = '';
-        $scope.sourceFileName2 = '';
-        $scope.sourceDelimeter2 = '';
+            $scope.sourceFileName1 = '';
+            $scope.sourceDelimeter1 = '';
+            //$scope.sourceFileName2 = '';
+            //$scope.sourceDelimeter2 = '';
 
-
-        $scope.targetDelimeter1 = '';
-        $scope.targetFileName1 = '';
-        $scope.targetDelimeter2 = '';
-        $scope.targetFileName2 = '';
+            $scope.targetDelimeter1 = '';
+            $scope.targetFileName1 = '';
+            //$scope.targetDelimeter2 = '';
+            //$scope.targetFileName2 = '';
+        }
 
         $scope.loadFiles = function () {
             loadsourceFile1();
             loadtargetFile1();
-            loadsourceFile2();
-            loadtargetFile2();
+            //loadsourceFile2();
+            //loadtargetFile2();
         };
 
         function loadsourceFile1() {
@@ -115,6 +116,8 @@
 
                 });
         }
+
+        init();
         $scope.loadFiles();
 
         $scope.showJSON = function () {
@@ -122,80 +125,100 @@
                 $scope.finalSource.length > 0 &&
                 $scope.finalTarget != null &&
                 $scope.finalTarget.length > 0) {
-                var files = {
-                    'Files': []
-                };
-                var list = [];
+
                 $scope.compareJSON = [];
                 $scope.compareJSON = $scope.finalSource.concat($scope.finalTarget);
+                var files = { 'Files': [] };
+                var list = getList();
+                var relation = getRelationShip();
 
-                var s1 = _.where($scope.compareJSON, { RefNo: 'S1' });
-                var s2 = _.where($scope.compareJSON, { RefNo: 'S2' });
-                var s3 = _.where($scope.compareJSON, {
-                    RefNo: 'S3'
-                });
-                var s4 = _.where($scope.compareJSON, {
-                    RefNo: 'S4'
-                });
-                var globalRddCount = 0;
-                if (s1.length > 0) {
-                    var templist = { 'Name': s1[0].fileName, 'RefNo': s1[0].RefNo, 'Columns': [] }
-                    for (var count = 0; count < s1.length; count++) {
-                        var columns = {
-                            'FilePosition': count,
-                            'RddPosition': globalRddCount,
-                            'RefNo': s1[count].RefNo + ':' + s1[count].name
-                        };
-                        globalRddCount++;
-                        templist.Columns.push(columns);
-                    }
-                    list.push(templist);
-                }
-                if (s2.length > 0) {
-                    var templist = { 'Name': s2[0].fileName, 'RefNo': s2[0].RefNo, 'Columns': [] }
-                    for (var count = 0; count < s2.length; count++) {
-                        var columns = {
-                            'FilePosition': count,
-                            'RddPosition': globalRddCount,
-                            'RefNo': s2[count].RefNo + ':' + s2[count].name
-                        };
-                        globalRddCount++;
-                        templist.Columns.push(columns);
-                    }
-                    list.push(templist);
-                }
-                if (s3.length > 0) {
-                    var templist = { 'Name': s3[0].fileName, 'RefNo': s3[0].RefNo, 'Columns': [] }
-                    var rddPosition = s2.length;
-                    for (var count = 0; count < s3.length; count++) {
-                        var columns = {
-                            'FilePosition': count,
-                            'RddPosition': globalRddCount,
-                            'RefNo': s3[count].RefNo + ':' + s3[count].name
-                        };
-                        globalRddCount++;
-                        templist.Columns.push(columns);
-                    }
-                    list.push(templist);
-                }
-                if (s4.length > 0) {
-                    var templist = { 'Name': s4[0].fileName, 'RefNo': s4[0].RefNo, 'Columns': [] }
-                    var rddPosition = s3.length;
-                    for (var count = 0; count < s4.length; count++) {
-                        var columns = {
-                            'FilePosition': count,
-                            'RddPosition': globalRddCount,
-                            'RefNo': s4[count].RefNo + ':' + s4[count].name
-                        };
-                        globalRddCount++;
-                        templist.Columns.push(columns);
-                    }
-                    list.push(templist);
-                }
-                files.Files.push({ 'List': list, 'Relationship': '' });
+                files.Files.push({ 'List': list, 'Relationship': relation });
                 console.log(files);
                 $scope.txtFinal = angular.toJson(files);
             }
         };
+
+        function getList() {
+            var list = [];
+            var s1 = _.where($scope.compareJSON, { RefNo: 'S1' });
+            var s2 = _.where($scope.compareJSON, { RefNo: 'S2' });
+            var s3 = _.where($scope.compareJSON, { RefNo: 'S3' });
+            var s4 = _.where($scope.compareJSON, { RefNo: 'S4' });
+            var globalRddCount = 0;
+
+            if (s1.length > 0) {
+                var templist = { 'Name': s1[0].fileName, 'RefNo': s1[0].RefNo, 'Columns': [] }
+                for (var count = 0; count < s1.length; count++) {
+                    var columns = {
+                        'FilePosition': count,
+                        'RddPosition': globalRddCount,
+                        'RefNo': s1[count].RefNo + ':' + s1[count].name
+                    };
+                    globalRddCount++;
+                    templist.Columns.push(columns);
+                }
+                list.push(templist);
+            }
+            if (s2.length > 0) {
+                var templist = { 'Name': s2[0].fileName, 'RefNo': s2[0].RefNo, 'Columns': [] }
+                for (var count = 0; count < s2.length; count++) {
+                    var columns = {
+                        'FilePosition': count,
+                        'RddPosition': globalRddCount,
+                        'RefNo': s2[count].RefNo + ':' + s2[count].name
+                    };
+                    globalRddCount++;
+                    templist.Columns.push(columns);
+                }
+                list.push(templist);
+            }
+            if (s3.length > 0) {
+                var templist = { 'Name': s3[0].fileName, 'RefNo': s3[0].RefNo, 'Columns': [] }
+                var rddPosition = s2.length;
+                for (var count = 0; count < s3.length; count++) {
+                    var columns = {
+                        'FilePosition': count,
+                        'RddPosition': globalRddCount,
+                        'RefNo': s3[count].RefNo + ':' + s3[count].name
+                    };
+                    globalRddCount++;
+                    templist.Columns.push(columns);
+                }
+                list.push(templist);
+            }
+            if (s4.length > 0) {
+                var templist = { 'Name': s4[0].fileName, 'RefNo': s4[0].RefNo, 'Columns': [] }
+                var rddPosition = s3.length;
+                for (var count = 0; count < s4.length; count++) {
+                    var columns = {
+                        'FilePosition': count,
+                        'RddPosition': globalRddCount,
+                        'RefNo': s4[count].RefNo + ':' + s4[count].name
+                    };
+                    globalRddCount++;
+                    templist.Columns.push(columns);
+                }
+                list.push(templist);
+            }
+            return list;
+        }
+        function getRelationShip() {
+            var source = {
+
+
+
+            };
+            var target = {
+
+
+
+            };
+
+
+
+
+        }
+
+
     }
 }());

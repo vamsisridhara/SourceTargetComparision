@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\angular-material.min.css" />
+    <Content Include="assets\css\compare.css" />
     <Content Include="assets\css\custom.min.css" />
     <Content Include="assets\libs\angular-drag-and-drop-lists.js" />
     <Content Include="assets\libs\angular-local-storage.js" />
