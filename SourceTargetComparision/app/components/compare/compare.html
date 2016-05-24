@@ -1,44 +1,87 @@
-﻿
-<h1>Relationship</h1>
+﻿<h1>Relationship</h1>
 <div class="col-md-12">
     <div class="row">
         <div class="col-md-2">
-            <label for="selSource">
+            <label>
                 Select Source
             </label>
-            <select id="selSource" class="form-control col-xs-4" ng-model="selSource">
+        </div>
+        <div class="col-md-2">
+            <label>
+                Select Join Columns
+            </label>
+        </div>
+        <div class="col-md-2">
+            <label>
+                Select Target
+            </label>
+        </div>
+        <div class="col-md-2">
+            <label>
+                Select Join Columns
+            </label>
+        </div>
+        <div class="col-sm-2">
+            <label>Select Action on Columns</label>
+        </div>
+    </div>
+    <div class="row" ng-repeat="rel in relationsData">
+        <div class="col-md-2">
+            <select id="selSource" class="form-control col-xs-4" ng-model="rel.selSource">
                 <option>Select</option>
-                <option value="S1">S1</option>
-                <option value="S2">S2</option>
+                <option ng-repeat="item in relationSource" value="{{item.source}}">
+                    {{item.source}}
+                </option>
             </select>
         </div>
-
         <div class="col-sm-2">
-            <label>Select Join Columns</label>
-            <select id="selSource" class="form-control col-xs-4" ng-model="joinSource">
-                <option>Select</option>
-                <option value="FIELD1">FIELD1</option>
-                <option value="FIELD2">FIELD2</option>
+            <select id="selSource" class="form-control col-xs-4" ng-model="rel.joinSource">
+                <option>Select Column</option>
+                <option ng-repeat="item in sourceFile1" value="{{item.name}}">
+                    {{item.name}}
+                </option>
             </select>
         </div>
-        <div class="col-sm-2">
+        <!--<div class="col-sm-2">
             <label>Type of Join</label>
             <select id="typeofJoin" class="form-control col-xs-4" ng-model="typeofJoin">
                 <option>Select</option>
                 <option value="Inner">Inner</option>
                 <option value="Outer">Outer</option>
             </select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-2">
-            <label>Condition</label>
-            <select id="condition" class="form-control col-xs-4" ng-model="condition">
+        </div>-->
+        <div class="col-md-2">
+            <select id="selSource" class="form-control col-xs-4" ng-model="rel.selTarget">
                 <option>Select</option>
-                <option value="Inner">Inner</option>
-                <option value="Outer">Outer</option>
+                <option ng-repeat="item in relationTarget" value="{{item.source}}">
+                    {{item.source}}
+                </option>
             </select>
         </div>
+        <div class="col-sm-2">
+            <select id="target" class="form-control col-xs-4" ng-model="rel.joinTarget">
+                <option>Select Column</option>
+                <option ng-repeat="item in targetFile1" value="{{item.name}}">
+                    {{item.name}}
+                </option>
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <label ng-hide="{{ 1==1 }}">Select Action on Columns</label>
+            <button type="button" class="btn-primary btn"
+                    ng-click="addRelation()">
+                Add
+            </button>
+            <button type="button"
+                    class="btn-primary btn"
+                    ng-click="removeRelation($index)">
+                Remove
+            </button>
+        </div>
+        <br /><br /><br /><br />
+    </div>
+    <div class="row">
+
     </div>
 </div>
 
@@ -61,13 +104,7 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <!-- The dnd-list directive allows to drop elements into it.
-                    The dropped data will be added to the referenced list -->
                     <ul dnd-list="sourceFile1">
-                        <!-- The dnd-draggable directive makes an element draggable and will
-                        transfer the object that was assigned to it. If an element was
-                        dragged away, you have to remove it from the original list
-                        yourself using the dnd-moved attribute -->
                         <li ng-repeat="item in sourceFile1"
                             dnd-draggable="item"
                             dnd-moved="sourceFile1.splice($index, 1)"
@@ -88,13 +125,7 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <!-- The dnd-list directive allows to drop elements into it.
-                    The dropped data will be added to the referenced list -->
                     <ul dnd-list="targetFile1">
-                        <!-- The dnd-draggable directive makes an element draggable and will
-                        transfer the object that was assigned to it. If an element was
-                        dragged away, you have to remove it from the original list
-                        yourself using the dnd-moved attribute -->
                         <li ng-repeat="item in targetFile1"
                             dnd-draggable="item"
                             dnd-moved="targetFile1.splice($index, 1)"
@@ -102,6 +133,9 @@
                             dnd-selected="models.selected = item"
                             ng-class="{'selected': models.selected === item}">
                             Name: {{item.name}}
+
+
+                        </li>
                         </li>
                     </ul>
                 </div>
@@ -160,19 +194,13 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <!-- The dnd-list directive allows to drop elements into it.
-                    The dropped data will be added to the referenced list -->
                     <ul dnd-list="finalSource">
-                        <!-- The dnd-draggable directive makes an element draggable and will
-                        transfer the object that was assigned to it. If an element was
-                        dragged away, you have to remove it from the original list
-                        yourself using the dnd-moved attribute -->
                         <li ng-repeat="item in finalSource"
                             dnd-draggable="item"
                             dnd-effect-allowed="copy"
                             dnd-selected="models.selected = item"
                             ng-class="{'selected': models.selected === item}">
-                            Name: {{item.name}}
+                            Name: {{item.name}} ({{ item.fileName }})
                         </li>
                     </ul>
                 </div>
@@ -187,25 +215,21 @@
                         </h3>
                     </div>
                     <div class="panel-body">
-                        <!-- The dnd-list directive allows to drop elements into it.
-                        The dropped data will be added to the referenced list -->
                         <ul dnd-list="finalTarget">
-                            <!-- The dnd-draggable directive makes an element draggable and will
-                            transfer the object that was assigned to it. If an element was
-                            dragged away, you have to remove it from the original list
-                            yourself using the dnd-moved attribute -->
                             <li ng-repeat="item in finalTarget"
                                 dnd-draggable="item"
                                 dnd-effect-allowed="copy"
                                 dnd-selected="models.selected = item"
                                 ng-class="{'selected': models.selected === item}">
-                                Name: {{item.name}}
+                                =
+                                >
+
+                                Name: {{item.name}} ({{ item.fileName }})
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

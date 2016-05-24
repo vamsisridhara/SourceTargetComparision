@@ -22,8 +22,45 @@
             $scope.targetFileName1 = '';
             //$scope.targetDelimeter2 = '';
             //$scope.targetFileName2 = '';
-        }
 
+            $scope.relationSource = [];
+            $scope.relationTarget = [];
+            $scope.relationsData = [];
+            var count = 0;
+            if ($scope.relationsData) {
+                $scope.relationsData.push({
+                    index: count,
+                    source: $scope.relationSource,
+                    sourceJoinColumns: $scope.joinSource,
+                    target: $scope.relationTarget,
+                    targetJoinColumns: $scope.joinTarget,
+                });
+            } else {
+                count = $scope.relationsData.length;
+                $scope.relationsData.push({
+                    index: count,
+                    source: $scope.relationSource,
+                    sourceJoinColumns: $scope.joinSource,
+                    target: $scope.relationTarget,
+                    targetJoinColumns: $scope.joinTarget,
+                });
+            }
+        }
+        $scope.addRelation = function () {
+            $scope.relationsData.push({
+                index: $scope.relationsData.length + 1,
+                source: $scope.relationSource,
+                sourceJoinColumns: $scope.joinSource,
+                target: $scope.relationTarget,
+                targetJoinColumns: $scope.joinTarget,
+            });
+
+        };
+        $scope.removeRelation = function (index) {
+
+            alert(index);
+
+        };
         $scope.loadFiles = function () {
             loadsourceFile1();
             loadtargetFile1();
@@ -36,6 +73,7 @@
                 .then(function (data) {
                     if (data != null && data.AttributeCount > 0) {
                         $scope.sourceFileName1 = data.FileName;
+                        $scope.relationSource.push({ source: data.FileName });
                         $scope.sourceDelimeter1 = data.FileDelimiter;
                         for (var count = 0; count < data.Attributes.length; count++) {
                             var key = data.Attributes[count];
@@ -43,7 +81,8 @@
                                 name: key.Name,
                                 type: key.DataType,
                                 RefNo: 'S1',
-                                fileName: $scope.sourceFileName1
+                                fileName: $scope.sourceFileName1,
+                                filePosition: count
                             });
                         }
                     }
@@ -64,7 +103,8 @@
                                 name: key.Name,
                                 type: key.DataType,
                                 RefNo: 'S3',
-                                fileName: $scope.sourceFileName2
+                                fileName: $scope.sourceFileName2,
+                                filePosition: count
                             });
                         }
                     }
@@ -79,6 +119,7 @@
                 .then(function (data) {
                     if (data != null && data.AttributeCount > 0) {
                         $scope.targetFileName1 = data.FileName;
+                        $scope.relationTarget.push({ source: data.FileName });
                         $scope.targetDelimeter1 = data.FileDelimiter;
                         for (var count = 0; count < data.Attributes.length; count++) {
                             var key = data.Attributes[count];
@@ -86,7 +127,8 @@
                                 name: key.Name,
                                 type: key.DataType,
                                 RefNo: 'S2',
-                                fileName: $scope.targetFileName1
+                                fileName: $scope.targetFileName1,
+                                filePosition: count
                             });
                         }
                     }
@@ -107,7 +149,8 @@
                                 name: key.Name,
                                 type: key.DataType,
                                 RefNo: 'S4',
-                                fileName: $scope.targetFileName2
+                                fileName: $scope.targetFileName2,
+                                filePosition: count
                             });
                         }
                     }
@@ -150,7 +193,7 @@
                 var templist = { 'Name': s1[0].fileName, 'RefNo': s1[0].RefNo, 'Columns': [] }
                 for (var count = 0; count < s1.length; count++) {
                     var columns = {
-                        'FilePosition': count,
+                        'FilePosition': s1[count].filePosition,
                         'RddPosition': globalRddCount,
                         'RefNo': s1[count].RefNo + ':' + s1[count].name
                     };
@@ -163,7 +206,7 @@
                 var templist = { 'Name': s2[0].fileName, 'RefNo': s2[0].RefNo, 'Columns': [] }
                 for (var count = 0; count < s2.length; count++) {
                     var columns = {
-                        'FilePosition': count,
+                        'FilePosition': s2[count].filePosition,
                         'RddPosition': globalRddCount,
                         'RefNo': s2[count].RefNo + ':' + s2[count].name
                     };
@@ -177,7 +220,7 @@
                 var rddPosition = s2.length;
                 for (var count = 0; count < s3.length; count++) {
                     var columns = {
-                        'FilePosition': count,
+                        'FilePosition': s3[count].filePosition,
                         'RddPosition': globalRddCount,
                         'RefNo': s3[count].RefNo + ':' + s3[count].name
                     };
@@ -191,7 +234,7 @@
                 var rddPosition = s3.length;
                 for (var count = 0; count < s4.length; count++) {
                     var columns = {
-                        'FilePosition': count,
+                        'FilePosition': s4[count].filePosition,
                         'RddPosition': globalRddCount,
                         'RefNo': s4[count].RefNo + ':' + s4[count].name
                     };
