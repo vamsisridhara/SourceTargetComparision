@@ -1,9 +1,68 @@
 ﻿(function () {
     'use strict';
-    var app = angular.module('compare', ['compareService']);
+    var app = angular.module('compare', ['compareService', 'ngTouch', 'angucomplete-alt']);
     app.controller('compareController',
                     ['compareservicefactory', '$scope', compareCtrlFunction]);
     function compareCtrlFunction(compareservicefactory, $scope) {
+        $scope.sourceSelectedJoinColumn = '';
+        $scope.targetSelectedJoinColumn = '';
+        $scope.typeofJoin = 'Type of Join';
+        $scope.sourceRelation = function (selected) {
+            if (selected) {
+                $scope.sourceSelectedJoinColumn = selected.title;
+            } else {
+                console.log('cleared');
+            }
+        };
+        $scope.targetRelation = function (selected) {
+            if (selected) {
+                $scope.targetSelectedJoinColumn = selected.title;
+            } else {
+                console.log('cleared');
+            }
+        };
+
+        $scope.inputChanged = function (str) {
+            $scope.console10 = str;
+        }
+
+        $scope.focusState = 'None';
+        $scope.focusIn = function () {
+            var focusInputElem = document.getElementById('ex12_value');
+            $scope.focusState = 'In';
+            focusInputElem.classList.remove('small-input');
+        }
+        $scope.focusOut = function () {
+            var focusInputElem = document.getElementById('ex12_value');
+            $scope.focusState = 'Out';
+            focusInputElem.classList.add('small-input');
+        }
+
+        /***
+         * Send a broadcast to the directive in order to clear itself
+         * if an id parameter is given only this ancucomplete is cleared
+         * @param id
+         */
+        $scope.clearInput = function (id) {
+            if (id) {
+                $scope.$broadcast('angucomplete-alt:clearInput', id);
+            }
+            else {
+                $scope.$broadcast('angucomplete-alt:clearInput');
+            }
+        }
+
+        /***
+         * Send a broadcast to the directive in order to change itself
+         * if an id parameter is given only this ancucomplete is changed
+         * @param id
+         */
+        $scope.changeInput = function (id) {
+            if (id) {
+                var pos = Math.floor(Math.random() * ($scope.countries.length - 1));
+                $scope.$broadcast('angucomplete-alt:changeInput', id, $scope.countries[pos]);
+            }
+        }
         function init() {
             $scope.sourceFile1 = [];
             $scope.targetFile1 = [];
@@ -26,41 +85,47 @@
             $scope.relationSource = [];
             $scope.relationTarget = [];
             $scope.relationsData = [];
-            var count = 0;
-            if ($scope.relationsData) {
-                $scope.relationsData.push({
-                    index: count,
-                    source: $scope.relationSource,
-                    sourceJoinColumns: $scope.joinSource,
-                    target: $scope.relationTarget,
-                    targetJoinColumns: $scope.joinTarget,
-                });
-            } else {
-                count = $scope.relationsData.length;
-                $scope.relationsData.push({
-                    index: count,
-                    source: $scope.relationSource,
-                    sourceJoinColumns: $scope.joinSource,
-                    target: $scope.relationTarget,
-                    targetJoinColumns: $scope.joinTarget,
-                });
-            }
+
         }
+
+        $scope.validate = function () {
+            if ($scope.sourceSelectedJoinColumn.length <= 0 ||
+                $scope.targetSelectedJoinColumn.length <= 0 ||
+                $scope.typeofJoin == 'Type of Join') {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
         $scope.addRelation = function () {
             $scope.relationsData.push({
-                index: $scope.relationsData.length + 1,
-                source: $scope.relationSource,
-                sourceJoinColumns: $scope.joinSource,
-                target: $scope.relationTarget,
-                targetJoinColumns: $scope.joinTarget,
+                index: $scope.relationsData.length,
+                source: $scope.sourceFileName1,
+                sourceJoinColumns: $scope.sourceSelectedJoinColumn,
+                target: $scope.targetFileName1,
+                targetJoinColumns: $scope.targetSelectedJoinColumn,
+                typeofJoin: $scope.typeofJoin
             });
+            var arr = $scope.targetFileRelationColumns;
+            $scope.targetFileRelationColumns = _.without(arr, _.findWhere(arr, { name: $scope.targetSelectedJoinColumn }));
 
+            var arr1 = $scope.sourceFileRelationColumns;
+            $scope.sourceFileRelationColumns = _.without(arr1, _.findWhere(arr1, { name: $scope.sourceSelectedJoinColumn }));
+
+            $scope.sourceSelectedJoinColumn = '';
+            $scope.targetSelectedJoinColumn = '';
+            $scope.typeofJoin = 'Type of Join';
         };
         $scope.removeRelation = function (index) {
+            var arr = $scope.relationsData;
+            var obj = _.findWhere(arr, { index: index });
+            $scope.sourceFileRelationColumns.push({ name: obj.sourceJoinColumns });
+            $scope.targetFileRelationColumns.push({ name: obj.targetJoinColumns });
 
-            alert(index);
-
+            $scope.relationsData = _.without(arr, _.findWhere(arr, { index: index }));
         };
+
         $scope.loadFiles = function () {
             loadsourceFile1();
             loadtargetFile1();
@@ -75,6 +140,7 @@
                         $scope.sourceFileName1 = data.FileName;
                         $scope.relationSource.push({ source: data.FileName });
                         $scope.sourceDelimeter1 = data.FileDelimiter;
+                        $scope.sourceFileRelationColumns = [];
                         for (var count = 0; count < data.Attributes.length; count++) {
                             var key = data.Attributes[count];
                             $scope.sourceFile1.push({
@@ -84,6 +150,10 @@
                                 fileName: $scope.sourceFileName1,
                                 filePosition: count
                             });
+                            $scope.sourceFileRelationColumns.push(
+                                {
+                                    name: key.Name
+                                });
                         }
                     }
                 }, function (data) {
@@ -121,6 +191,7 @@
                         $scope.targetFileName1 = data.FileName;
                         $scope.relationTarget.push({ source: data.FileName });
                         $scope.targetDelimeter1 = data.FileDelimiter;
+                        $scope.targetFileRelationColumns = [];
                         for (var count = 0; count < data.Attributes.length; count++) {
                             var key = data.Attributes[count];
                             $scope.targetFile1.push({
@@ -130,7 +201,12 @@
                                 fileName: $scope.targetFileName1,
                                 filePosition: count
                             });
+                            $scope.targetFileRelationColumns.push(
+                             {
+                                 name: key.Name
+                             });
                         }
+
                     }
                 }, function (data) {
 
@@ -247,19 +323,38 @@
         }
         function getRelationShip() {
             var source = {
-
-
-
+                'Left': 'S1',
+                'RightExist': 'Yes',
+                'Join': {
+                    'Right': 'S2',
+                    'Type': '',
+                    'RightExist': 'No',
+                    'Condition': []
+                }
             };
+
+            for (var count = 0; count < $scope.relationsData.length; count++) {
+                var relationData = $scope.relationsData[count];
+                var join = source.Join;
+                join.Type = relationData.typeofJoin;
+                join.Condition.push({
+                    'Left': 'S1:' + relationData.sourceJoinColumns,
+                    'Right': 'S2:' + relationData.targetJoinColumns
+                });
+            }
+
             var target = {
-
-
-
+                'Left': '',
+                'RightExist': '',
+                'Join': {
+                    'Right': '',
+                    'Type': '',
+                    'RightExist': 'No',
+                    'Condition': []
+                }
             };
-
-
-
-
+            var relation = {'Source': source, 'Target': target}
+            return relation;
         }
 
 

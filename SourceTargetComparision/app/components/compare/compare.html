@@ -1,97 +1,104 @@
-﻿<h1>Relationship</h1>
-<div class="col-md-12">
-    <div class="row">
-        <div class="col-md-2">
-            <label>
-                Select Source
-            </label>
-        </div>
-        <div class="col-md-2">
-            <label>
-                Select Join Columns
-            </label>
-        </div>
-        <div class="col-md-2">
-            <label>
-                Select Target
-            </label>
-        </div>
-        <div class="col-md-2">
-            <label>
-                Select Join Columns
-            </label>
-        </div>
-        <div class="col-sm-2">
-            <label>Select Action on Columns</label>
-        </div>
-    </div>
-    <div class="row" ng-repeat="rel in relationsData">
-        <div class="col-md-2">
-            <select id="selSource" class="form-control col-xs-4" ng-model="rel.selSource">
-                <option>Select</option>
-                <option ng-repeat="item in relationSource" value="{{item.source}}">
-                    {{item.source}}
-                </option>
-            </select>
-        </div>
-        <div class="col-sm-2">
-            <select id="selSource" class="form-control col-xs-4" ng-model="rel.joinSource">
-                <option>Select Column</option>
-                <option ng-repeat="item in sourceFile1" value="{{item.name}}">
-                    {{item.name}}
-                </option>
-            </select>
-        </div>
-        <!--<div class="col-sm-2">
-            <label>Type of Join</label>
-            <select id="typeofJoin" class="form-control col-xs-4" ng-model="typeofJoin">
-                <option>Select</option>
-                <option value="Inner">Inner</option>
-                <option value="Outer">Outer</option>
-            </select>
-        </div>-->
-        <div class="col-md-2">
-            <select id="selSource" class="form-control col-xs-4" ng-model="rel.selTarget">
-                <option>Select</option>
-                <option ng-repeat="item in relationTarget" value="{{item.source}}">
-                    {{item.source}}
-                </option>
-            </select>
-        </div>
-        <div class="col-sm-2">
-            <select id="target" class="form-control col-xs-4" ng-model="rel.joinTarget">
-                <option>Select Column</option>
-                <option ng-repeat="item in targetFile1" value="{{item.name}}">
-                    {{item.name}}
-                </option>
-            </select>
-        </div>
-        <div class="col-sm-2">
-            <label ng-hide="{{ 1==1 }}">Select Action on Columns</label>
-            <button type="button" class="btn-primary btn"
-                    ng-click="addRelation()">
-                Add
-            </button>
-            <button type="button"
-                    class="btn-primary btn"
-                    ng-click="removeRelation($index)">
-                Remove
-            </button>
-        </div>
-        <br /><br /><br /><br />
-    </div>
-    <div class="row">
+﻿<style>
+    
+    /*
+    Generic Styling, for Desktops/Laptops
+    */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    /* Zebra striping */
+    tr:nth-of-type(odd) {
+        background: #eee;
+    }
 
-    </div>
-</div>
+    th {
+        background: #333;
+        color: white;
+        font-weight: bold;
+    }
 
-<br /><br /><br />
+    td, th {
+        padding: 6px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+    /*
+    Max width before this PARTICULAR table gets nasty
+    This query will take effect for any screen smaller than 760px
+    and also iPads specifically.
+    */
+    @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+
+        /* Force table to not be like tables anymore */
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        tr {
+            border: 1px solid #ccc;
+        }
+
+        td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+        }
+
+            td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+            }
+
+            /*
+        Label the data
+        */
+            td:nth-of-type(1):before {
+                content: "Source";
+            }
+
+            td:nth-of-type(2):before {
+                content: "Source Join Columns";
+            }
+
+            td:nth-of-type(3):before {
+                content: "Target Join Columns";
+            }
+
+            td:nth-of-type(4):before {
+                content: "Target";
+            }
+
+            /*td:nth-of-type(5):before {
+                    content: "Type of Join";
+                }*/
+
+            td:nth-of-type(5):before {
+                content: "Action on Columns";
+            }
+    }
+</style>
+
 <h1>List</h1>
 <div class="col-md-6">
     <button type="button" class="btn btn-primary" ng-click="showJSON()">
         Generate JSON
     </button>
-    <!--<textarea id="txtFinal" ng-model="txtFinal"></textarea>-->
 </div>
 <br /><br /><br />
 <div class="col-md-12">
@@ -133,57 +140,11 @@
                             dnd-selected="models.selected = item"
                             ng-class="{'selected': models.selected === item}">
                             Name: {{item.name}}
-
-
-                        </li>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-
-        <!--<div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Source : {{ sourceFileName2 }}
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <ul dnd-list="sourceFile2">
-                        <li ng-repeat="item in sourceFile2"
-                            dnd-draggable="item"
-                            dnd-moved="sourceFile2.splice($index, 1)"
-                            dnd-effect-allowed="copy"
-                            dnd-selected="models.selected = item"
-                            ng-class="{'selected': models.selected === item}">
-                            Name: {{item.name}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Target : {{ targetFileName2 }}
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <ul dnd-list="targetFile2">
-                        <li ng-repeat="item in targetFile2"
-                            dnd-draggable="item"
-                            dnd-moved="targetFile2.splice($index, 1)"
-                            dnd-effect-allowed="copy"
-                            dnd-selected="models.selected = item"
-                            ng-class="{'selected': models.selected === item}">
-                            Name: {{item.name}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>-->
     </div>
     <div class="row simpleDemo">
         <div class="col-md-6">
@@ -221,9 +182,6 @@
                                 dnd-effect-allowed="copy"
                                 dnd-selected="models.selected = item"
                                 ng-class="{'selected': models.selected === item}">
-                                =
-                                >
-
                                 Name: {{item.name}} ({{ item.fileName }})
                             </li>
                         </ul>
@@ -234,3 +192,96 @@
     </div>
 </div>
 <hr />
+<h1>Relationship</h1>
+<div class="col-md-12">
+    <div class="col-md-3">
+        <div angucomplete-alt id="ex1"
+             placeholder="Search Join Column for Source"
+             maxlength="50"
+             pause="100"
+             selected-object="sourceRelation"
+             local-data="sourceFileRelationColumns"
+             search-fields="name"
+             title-field="name"
+             minlength="1"
+             input-class="form-control form-control-small"
+             match-class="highlight"
+             clear-selected="true">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div angucomplete-alt id="ex2"
+             placeholder="Search Join Column for Target"
+             maxlength="50"
+             pause="100"
+             selected-object="targetRelation"
+             local-data="targetFileRelationColumns"
+             search-fields="name"
+             title-field="name"
+             minlength="1"
+             input-class="form-control form-control-small"
+             match-class="highlight"
+             clear-selected="true">
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <select id="typeofJoin" class="form-control col-xs-4" ng-model="typeofJoin">
+            <option value="Type of Join" selected disabled>Type of Join</option>
+            <option value="Inner">Inner</option>
+            <option value="Outer">Outer</option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <button type="button" class="btn-primary btn"
+                ng-disabled="validate()"
+                ng-click="addRelation()">
+            Add
+        </button>
+    </div>
+
+</div>
+<br /><br /><br />
+<div class="col-md-12">
+    <div class="col-md-3">
+        <label ng-if="sourceSelectedJoinColumn">
+            Selected Source: {{sourceSelectedJoinColumn}}
+        </label><br />
+        <label ng-if="targetSelectedJoinColumn">
+            Selected Target: {{targetSelectedJoinColumn}}
+        </label><br />
+    </div>
+</div><br /><br /><br />
+<div class="col-md-12">
+    <table>
+        <thead>
+            <tr>
+                <th>Source</th>
+                <th>Source Join Columns</th>
+                <th>Target Join Columns</th>
+                <th>Target</th>
+                <th>Action on Columns</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="rel in relationsData">
+                <td>{{sourceFileName1}}</td>
+                <td>{{rel.sourceJoinColumns}}</td>
+                <td>{{rel.targetJoinColumns}}</td>
+                <td>{{targetFileName1}}</td>
+                <td>
+                    <button type="button"
+                            class="btn-primary btn btn-small"
+                            ng-click="removeRelation($index)">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+            <tr ng-if="relationsData.length ==0">
+                <td colspan="5">No Records</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br /><br /><br />

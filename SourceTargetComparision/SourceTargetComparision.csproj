@@ -66,9 +66,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\angucomplete.css" />
     <Content Include="assets\css\angular-material.min.css" />
     <Content Include="assets\css\compare.css" />
     <Content Include="assets\css\custom.min.css" />
+    <Content Include="assets\libs\angucomplete-alt.min.js" />
     <Content Include="assets\libs\angular-drag-and-drop-lists.js" />
     <Content Include="assets\libs\angular-local-storage.js" />
     <Content Include="assets\libs\bootstrap.min.js" />
@@ -83,6 +85,7 @@
     <Content Include="app\components\compare\test_t_md_2.json" />
     <Content Include="app\components\compare\test_s_md_1.json" />
     <Content Include="app\components\compare\test_t_md_1.json" />
+    <Content Include="assets\libs\angular-touch.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
