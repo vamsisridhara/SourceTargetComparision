@@ -1,287 +1,332 @@
 ﻿<style>
-    
-    /*
-    Generic Styling, for Desktops/Laptops
-    */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    /* Zebra striping */
-    tr:nth-of-type(odd) {
-        background: #eee;
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
     }
 
-    th {
-        background: #333;
-        color: white;
-        font-weight: bold;
+    .modal {
+        background-color: rgba(0,0,0,0.8);
     }
 
-    td, th {
-        padding: 6px;
-        border: 1px solid #ccc;
-        text-align: center;
+    .alert {
+        margin-top: 10px;
+        white-space: nowrap;
     }
-    /*
-    Max width before this PARTICULAR table gets nasty
-    This query will take effect for any screen smaller than 760px
-    and also iPads specifically.
-    */
-    @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
 
-        /* Force table to not be like tables anymore */
-        table, thead, tbody, th, td, tr {
-            display: block;
+    .alert-container {
+        -webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+        transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    }
+
+    .form-signin {
+        max-width: 360px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    }
+
+        .form-signin .thumbnail {
+            margin-bottom: 10px;
         }
 
-            /* Hide table headers (but not display: none;, for accessibility) */
-            thead tr {
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
+    .modal-body .btn-group {
+        margin-bottom: 10px;
+    }
 
-        tr {
-            border: 1px solid #ccc;
+    .slide-frame {
+        position: relative;
+        height: auto;
+        overflow: hidden;
+    }
+
+        .slide-frame > div {
+            width: 100%;
+            height: auto;
+            overflow: hidden;
         }
 
-        td {
-            /* Behave  like a "row" */
-            border: none;
-            border-bottom: 1px solid #eee;
-            position: relative;
-            padding-left: 50%;
-        }
+    /*input[type=text], select {
+        width: 50% !important;
+    }*/
 
-            td:before {
-                /* Now like a table header */
-                position: absolute;
-                /* Top/left values mimic padding */
-                top: 6px;
-                left: 6px;
-                width: 45%;
-                padding-right: 10px;
-                white-space: nowrap;
-            }
+    /* alert animations */
 
-            /*
-        Label the data
-        */
-            td:nth-of-type(1):before {
-                content: "Source";
-            }
+    .alert.ng-enter, .alert.ng-leave {
+        -webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+        transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    }
 
-            td:nth-of-type(2):before {
-                content: "Source Join Columns";
-            }
+    .alert.ng-enter {
+        opacity: 0;
+        max-width: 0;
+        max-height: 0;
+        padding: 0;
+        border-width: 0;
+        margin: 0;
+    }
 
-            td:nth-of-type(3):before {
-                content: "Target Join Columns";
-            }
+    .alert.ng-enter-active {
+        opacity: 1;
+        max-width: 100%;
+        max-height: 100px;
+        padding: 15px 35px 15px 15px;
+        border-width: 1px;
+        margin: 10px 0 20px;
+    }
 
-            td:nth-of-type(4):before {
-                content: "Target";
-            }
+    .alert.ng-leave {
+        opacity: 1;
+        max-width: 100%;
+        max-height: 100px;
+        padding: 15px 35px 15px 15px;
+        border-width: 1px;
+        margin: 10px 0 20px;
+    }
 
-            /*td:nth-of-type(5):before {
-                    content: "Type of Join";
-                }*/
+    .alert.ng-leave-active {
+        opacity: 0;
+        max-width: 0;
+        max-height: 0;
+        padding: 0;
+        border-width: 0;
+        margin: 0;
+    }
 
-            td:nth-of-type(5):before {
-                content: "Action on Columns";
-            }
+    /* modal and step animations */
+    .wave.ng-enter, .wave.ng-leave {
+        -webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+        transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    }
+
+    .wave.ng-enter {
+        position: absolute;
+        left: -100%;
+    }
+
+    .wave.ng-enter-active {
+        left: 0;
+    }
+
+    .wave.ng-leave {
+        position: absolute;
+        left: 0;
+    }
+
+    .wave.ng-leave-active {
+        left: 100%;
     }
 </style>
-
-<h1>List</h1>
-<div class="col-md-6">
-    <button type="button" class="btn btn-primary" ng-click="showJSON()">
-        Generate JSON
-    </button>
+<div class="btn-group">
+    <button class="btn" ng-class="{'btn-primary':isCurrentStep(0)}" ng-click="setCurrentStep(0)">List</button>
+    <button class="btn" ng-class="{'btn-primary':isCurrentStep(1)}" ng-click="setCurrentStep(1)">Relationship</button>
 </div>
-<br /><br /><br />
-<div class="col-md-12">
-    <div class="row simpleDemo">
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Source : {{ sourceFileName1 }}
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <ul dnd-list="sourceFile1">
-                        <li ng-repeat="item in sourceFile1"
-                            dnd-draggable="item"
-                            dnd-moved="sourceFile1.splice($index, 1)"
-                            dnd-effect-allowed="copy"
-                            dnd-selected="models.selected = item"
-                            ng-class="{'selected': models.selected === item}">
-                            Name: {{item.name}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Target : {{ targetFileName1 }}
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <ul dnd-list="targetFile1">
-                        <li ng-repeat="item in targetFile1"
-                            dnd-draggable="item"
-                            dnd-moved="targetFile1.splice($index, 1)"
-                            dnd-effect-allowed="copy"
-                            dnd-selected="models.selected = item"
-                            ng-class="{'selected': models.selected === item}">
-                            Name: {{item.name}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row simpleDemo">
-        <div class="col-md-6">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Final Source
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <ul dnd-list="finalSource">
-                        <li ng-repeat="item in finalSource"
-                            dnd-draggable="item"
-                            dnd-effect-allowed="copy"
-                            dnd-selected="models.selected = item"
-                            ng-class="{'selected': models.selected === item}">
-                            Name: {{item.name}} ({{ item.fileName }})
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="row simpleDemo">
-            <div class="col-md-6">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            Final Target
-                        </h3>
+<div ng-switch="getCurrentStep()" class="slide-frame">
+    <div ng-switch-when="one" class="wave">
+
+        <!--<div class="col-md-6">
+            <button type="button" class="btn btn-primary" ng-click="showJSON()">
+                Generate JSON
+            </button>
+        </div>-->
+        <br /><br /><br />
+        <div class="col-md-12">
+            <div class="row simpleDemo">
+                <div class="col-md-3">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                Source : {{ sourceFileName1 }}
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul dnd-list="sourceFile1">
+                                <li ng-repeat="item in sourceFile1"
+                                    dnd-draggable="item"
+                                    dnd-moved="sourceFile1.splice($index, 1)"
+                                    dnd-effect-allowed="copy"
+                                    dnd-selected="models.selected = item"
+                                    ng-class="{'selected': models.selected === item}">
+                                    Name: {{item.name}}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        <ul dnd-list="finalTarget">
-                            <li ng-repeat="item in finalTarget"
-                                dnd-draggable="item"
-                                dnd-effect-allowed="copy"
-                                dnd-selected="models.selected = item"
-                                ng-class="{'selected': models.selected === item}">
-                                Name: {{item.name}} ({{ item.fileName }})
-                            </li>
-                        </ul>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                Target : {{ targetFileName1 }}
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul dnd-list="targetFile1">
+                                <li ng-repeat="item in targetFile1"
+                                    dnd-draggable="item"
+                                    dnd-moved="targetFile1.splice($index, 1)"
+                                    dnd-effect-allowed="copy"
+                                    dnd-selected="models.selected = item"
+                                    ng-class="{'selected': models.selected === item}">
+                                    Name: {{item.name}}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="row simpleDemo">
+                <div class="col-md-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                Final Source
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul dnd-list="finalSource">
+                                <li ng-repeat="item in finalSource"
+                                    dnd-draggable="item"
+                                    dnd-effect-allowed="copy"
+                                    dnd-selected="models.selected = item"
+                                    ng-class="{'selected': models.selected === item}">
+                                    Name: {{item.name}} ({{ item.fileName }})
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row simpleDemo">
+                    <div class="col-md-6">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    Final Target
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul dnd-list="finalTarget">
+                                    <li ng-repeat="item in finalTarget"
+                                        dnd-draggable="item"
+                                        dnd-effect-allowed="copy"
+                                        dnd-selected="models.selected = item"
+                                        ng-class="{'selected': models.selected === item}">
+                                        Name: {{item.name}} ({{ item.fileName }})
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<hr />
-<h1>Relationship</h1>
-<div class="col-md-12">
-    <div class="col-md-3">
-        <div angucomplete-alt id="ex1"
-             placeholder="Search Join Column for Source"
-             maxlength="50"
-             pause="100"
-             selected-object="sourceRelation"
-             local-data="sourceFileRelationColumns"
-             search-fields="name"
-             title-field="name"
-             minlength="1"
-             input-class="form-control form-control-small"
-             match-class="highlight"
-             clear-selected="true">
+    <div ng-switch-when="two" class="wave">
+        <br/><br />
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <div angucomplete-alt id="ex1"
+                     placeholder="Search Join Column for Source"
+                     maxlength="50"
+                     pause="100"
+                     selected-object="sourceRelation"
+                     local-data="sourceFileRelationColumns"
+                     search-fields="name"
+                     title-field="name"
+                     minlength="1"
+                     input-class="form-control form-control-small"
+                     match-class="highlight"
+                     clear-selected="true">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div angucomplete-alt id="ex2"
+                     placeholder="Search Join Column for Target"
+                     maxlength="50"
+                     pause="100"
+                     selected-object="targetRelation"
+                     local-data="targetFileRelationColumns"
+                     search-fields="name"
+                     title-field="name"
+                     minlength="1"
+                     input-class="form-control form-control-small"
+                     match-class="highlight"
+                     clear-selected="true">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <select id="typeofJoin" class="form-control col-xs-4" ng-model="typeofJoin">
+                    <option value="Type of Join" selected disabled>Type of Join</option>
+                    <option value="Inner">Inner</option>
+                    <option value="Outer">Outer</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <button type="button" class="btn-primary btn"
+                        ng-click="addRelation()">
+                    Add
+                </button>
+            </div>
+
         </div>
-    </div>
-    <div class="col-md-3">
-        <div angucomplete-alt id="ex2"
-             placeholder="Search Join Column for Target"
-             maxlength="50"
-             pause="100"
-             selected-object="targetRelation"
-             local-data="targetFileRelationColumns"
-             search-fields="name"
-             title-field="name"
-             minlength="1"
-             input-class="form-control form-control-small"
-             match-class="highlight"
-             clear-selected="true">
+        <br /><br /><br /><br /><br /><br />
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <label ng-if="sourceSelectedJoinColumn">
+                    Selected Source: {{sourceSelectedJoinColumn}}
+                </label><br />
+                <label ng-if="targetSelectedJoinColumn">
+                    Selected Target: {{targetSelectedJoinColumn}}
+                </label><br />
+            </div>
+        </div><br /><br /><br />
+        <div class="col-md-12">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>Source Join Columns</th>
+                        <th>Target Join Columns</th>
+                        <th>Target</th>
+                        <th>Action on Columns</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="rel in relationsData">
+                        <td>{{sourceFileName1}}</td>
+                        <td>{{rel.sourceJoinColumns}}</td>
+                        <td>{{rel.targetJoinColumns}}</td>
+                        <td>{{targetFileName1}}</td>
+                        <td>
+                            <button type="button"
+                                    class="btn-primary btn btn-small"
+                                    ng-click="removeRelation($index)">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="relationsData.length ==0">
+                        <td colspan="5">No Records</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
-    <div class="col-sm-2">
-        <select id="typeofJoin" class="form-control col-xs-4" ng-model="typeofJoin">
-            <option value="Type of Join" selected disabled>Type of Join</option>
-            <option value="Inner">Inner</option>
-            <option value="Outer">Outer</option>
-        </select>
-    </div>
 
-    <div class="col-md-4">
-        <button type="button" class="btn-primary btn"
-                ng-disabled="validate()"
-                ng-click="addRelation()">
-            Add
-        </button>
+        <br /><br /><br />
+
     </div>
 
 </div>
-<br /><br /><br />
-<div class="col-md-12">
-    <div class="col-md-3">
-        <label ng-if="sourceSelectedJoinColumn">
-            Selected Source: {{sourceSelectedJoinColumn}}
-        </label><br />
-        <label ng-if="targetSelectedJoinColumn">
-            Selected Target: {{targetSelectedJoinColumn}}
-        </label><br />
-    </div>
-</div><br /><br /><br />
-<div class="col-md-12">
-    <table>
-        <thead>
-            <tr>
-                <th>Source</th>
-                <th>Source Join Columns</th>
-                <th>Target Join Columns</th>
-                <th>Target</th>
-                <th>Action on Columns</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="rel in relationsData">
-                <td>{{sourceFileName1}}</td>
-                <td>{{rel.sourceJoinColumns}}</td>
-                <td>{{rel.targetJoinColumns}}</td>
-                <td>{{targetFileName1}}</td>
-                <td>
-                    <button type="button"
-                            class="btn-primary btn btn-small"
-                            ng-click="removeRelation($index)">
-                        Remove
-                    </button>
-                </td>
-            </tr>
-            <tr ng-if="relationsData.length ==0">
-                <td colspan="5">No Records</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="modal-footer">
+    <a class="btn btn-default" ng-click="handlePrevious()" ng-if="!isFirstStep()">Back</a>
+    <a class="btn btn-primary" ng-click="handleNext()">{{getNextLabel()}}</a>
 </div>
 
-<br /><br /><br />
