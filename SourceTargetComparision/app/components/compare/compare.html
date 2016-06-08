@@ -125,12 +125,17 @@
     }
 </style>
 <div class="btn-group">
-    <button class="btn" ng-class="{'btn-primary':isCurrentStep(0)}" ng-click="setCurrentStep(0)">List</button>
-    <button class="btn" ng-class="{'btn-primary':isCurrentStep(1)}" ng-click="setCurrentStep(1)">Relationship</button>
+    <button class="btn" ng-class="{'btn-primary':isCurrentStep(0)}"
+            ng-click="setCurrentStep(0)">
+        List
+    </button>
+    <button class="btn" ng-class="{'btn-primary':isCurrentStep(1)}"
+            ng-click="setCurrentStep(1)">
+        Relationship
+    </button>
 </div>
 <div ng-switch="getCurrentStep()" class="slide-frame">
     <div ng-switch-when="one" class="wave">
-
         <!--<div class="col-md-6">
             <button type="button" class="btn btn-primary" ng-click="showJSON()">
                 Generate JSON
@@ -229,7 +234,7 @@
         </div>
     </div>
     <div ng-switch-when="two" class="wave">
-        <br/><br />
+        <br /><br />
         <div class="col-md-12">
             <div class="col-md-3">
                 <div angucomplete-alt id="ex1"
@@ -313,20 +318,21 @@
                             </button>
                         </td>
                     </tr>
-                    <tr ng-if="relationsData.length ==0">
+                    <tr ng-if="relationsData.length == 0">
                         <td colspan="5">No Records</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
         <br /><br /><br />
-
     </div>
-
 </div>
 <div class="modal-footer">
-    <a class="btn btn-default" ng-click="handlePrevious()" ng-if="!isFirstStep()">Back</a>
-    <a class="btn btn-primary" ng-click="handleNext()">{{getNextLabel()}}</a>
+    <a class="btn btn-default" ng-click="handlePrevious()" ng-if="!isFirstStep()">
+        Back
+    </a>
+    <a class="btn btn-primary" ng-click="handleNext()">
+        {{ getNextLabel() }}
+    </a>
 </div>
 
