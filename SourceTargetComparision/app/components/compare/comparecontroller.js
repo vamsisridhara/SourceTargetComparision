@@ -1,13 +1,11 @@
 ﻿(function () {
     'use strict';
-    var app = angular.module('compare', ['compareService', 'ngTouch', 'angucomplete-alt']);
+    var app = angular.module('compare', ['compareService', 'ngTouch']);
     app.controller('compareController',
                     ['compareservicefactory', '$scope', compareCtrlFunction]);
     function compareCtrlFunction(compareservicefactory, $scope) {
-
-        $scope.steps = ['one', 'two'];
+        $scope.steps = ['stepone', 'steptwo', 'stepthree', 'stepfour'];
         $scope.step = 0;
-        //$scope.wizard = { tacos: 2 };
 
         $scope.isFirstStep = function () {
             return $scope.step === 0;
@@ -40,140 +38,164 @@
         $scope.handleNext = function () {
             if ($scope.isLastStep()) {
                 showJSON();
-                $$scopeInstance.close($scope.wizard);
+                //$$scopeInstance.close($scope.wizard);
             } else {
                 $scope.step += 1;
             }
         };
 
 
-        $scope.sourceSelectedJoinColumn = '';
-        $scope.targetSelectedJoinColumn = '';
-        $scope.typeofJoin = 'Type of Join';
-        $scope.sourceRelation = function (selected) {
-            if (selected) {
-                $scope.sourceSelectedJoinColumn = selected.title;
-            } else {
-                console.log('cleared');
-            }
-        };
-        $scope.targetRelation = function (selected) {
-            if (selected) {
-                $scope.targetSelectedJoinColumn = selected.title;
-            } else {
-                console.log('cleared');
-            }
-        };
-
-        $scope.inputChanged = function (str) {
-            $scope.console10 = str;
-        }
-
-        $scope.focusState = 'None';
-        $scope.focusIn = function () {
-            var focusInputElem = document.getElementById('ex12_value');
-            $scope.focusState = 'In';
-            focusInputElem.classList.remove('small-input');
-        }
-        $scope.focusOut = function () {
-            var focusInputElem = document.getElementById('ex12_value');
-            $scope.focusState = 'Out';
-            focusInputElem.classList.add('small-input');
-        }
-
-        /***
-         * Send a broadcast to the directive in order to clear itself
-         * if an id parameter is given only this ancucomplete is cleared
-         * @param id
-         */
-        $scope.clearInput = function (id) {
-            if (id) {
-                $scope.$broadcast('angucomplete-alt:clearInput', id);
-            }
-            else {
-                $scope.$broadcast('angucomplete-alt:clearInput');
-            }
-        }
-
-        /***
-         * Send a broadcast to the directive in order to change itself
-         * if an id parameter is given only this ancucomplete is changed
-         * @param id
-         */
-        $scope.changeInput = function (id) {
-            if (id) {
-                var pos = Math.floor(Math.random() * ($scope.countries.length - 1));
-                $scope.$broadcast('angucomplete-alt:changeInput', id, $scope.countries[pos]);
-            }
-        }
         function init() {
+            $scope.joins = [{ name: 'Inner' }, { name: 'Outer' }];
+            $scope.sourceSelectedJoinColumn = '';
+            $scope.targetSelectedJoinColumn = '';
+            $scope.typeofJoin = '';
+            $scope.sourceRelation = $scope.targetRelation = '';
+
+            $scope.sourceSelectedJoinColumn1 = '';
+            $scope.targetSelectedJoinColumn1 = '';
+            $scope.typeofJoin1 = '';
+            $scope.sourceRelation1 = $scope.targetRelation1 = '';
+
             $scope.sourceFile1 = [];
             $scope.targetFile1 = [];
-            //$scope.sourceFile2 = [];
-            //$scope.targetFile2 = [];
+            $scope.sourceFile2 = [];
+            $scope.targetFile2 = [];
 
             $scope.finalSource = [];
             $scope.finalTarget = [];
 
             $scope.sourceFileName1 = '';
             $scope.sourceDelimeter1 = '';
-            //$scope.sourceFileName2 = '';
-            //$scope.sourceDelimeter2 = '';
+            $scope.sourceFileName2 = '';
+            $scope.sourceDelimeter2 = '';
 
             $scope.targetDelimeter1 = '';
             $scope.targetFileName1 = '';
-            //$scope.targetDelimeter2 = '';
-            //$scope.targetFileName2 = '';
+            $scope.targetDelimeter2 = '';
+            $scope.targetFileName2 = '';
 
             $scope.relationSource = [];
             $scope.relationTarget = [];
             $scope.relationsData = [];
-
+            $scope.relationsData1 = [];
+            $scope.validData = false;
         }
 
         $scope.validate = function () {
-            if ($scope.sourceSelectedJoinColumn.length <= 0 ||
-                $scope.targetSelectedJoinColumn.length <= 0 ||
-                $scope.typeofJoin == 'Type of Join') {
-                return true;
+            if ($scope.sourceRelation.length <= 0 ||
+                $scope.targetRelation.length <= 0 ||
+                $scope.typeofJoin == '') {
+                $scope.validData = true;
             } else {
-                return false;
+                $scope.validData = false;
             }
         };
 
+
         $scope.addRelation = function () {
+            $scope.errors = [];
+            if ($('#sourceRelation option:selected').val().trim() == '-1' &&
+                   $('#sourceRelation option:selected').val().trim() != undefined) {
+                $scope.errors.push({ error: 'Please select Source' });
+            }
+
+            if ($('#targetRelation option:selected').val().trim() == '-1' &&
+                    $('#targetRelation option:selected').val().trim() != undefined) {
+                $scope.errors.push({ error: 'Please select Target' });
+            }
+
+            if ($('#typeofJoin option:selected').val().trim() == '-1' &&
+                    $('#typeofJoin option:selected').val().trim() != undefined) {
+                $scope.errors.push({ error: 'Please select Type of Join' });
+            }
+
+            if ($scope.errors.length > 0) { return false;}
+            $scope.sourceRelation = $('#sourceRelation option:selected').text().trim();
+            $scope.targetRelation = $('#targetRelation option:selected').text().trim();
             $scope.relationsData.push({
                 index: $scope.relationsData.length,
                 source: $scope.sourceFileName1,
-                sourceJoinColumns: $scope.sourceSelectedJoinColumn,
+                sourceJoinColumns: $('#sourceRelation option:selected').text().trim(),
                 target: $scope.targetFileName1,
-                targetJoinColumns: $scope.targetSelectedJoinColumn,
-                typeofJoin: $scope.typeofJoin
+                targetJoinColumns: $('#targetRelation option:selected').text().trim(),
+                typeofJoin: $('#typeofJoin option:selected').text().trim()
             });
             var arr = $scope.targetFileRelationColumns;
-            $scope.targetFileRelationColumns = _.without(arr, _.findWhere(arr, { name: $scope.targetSelectedJoinColumn }));
+            $scope.targetFileRelationColumns = _.without(arr, _.findWhere(arr, { name: $scope.targetRelation }));
 
             var arr1 = $scope.sourceFileRelationColumns;
-            $scope.sourceFileRelationColumns = _.without(arr1, _.findWhere(arr1, { name: $scope.sourceSelectedJoinColumn }));
+            $scope.sourceFileRelationColumns = _.without(arr1, _.findWhere(arr1, { name: $scope.sourceRelation }));
 
-            $scope.sourceSelectedJoinColumn = '';
-            $scope.targetSelectedJoinColumn = '';
-            $scope.typeofJoin = 'Type of Join';
+            $scope.sourceRelation = '';
+            $scope.targetRelation = '';
+            $scope.typeofJoin = '';
+            $('select#typeofJoin').prop('selectedIndex', 0);
         };
+
         $scope.removeRelation = function (index) {
             var arr = $scope.relationsData;
             var obj = _.findWhere(arr, { index: index });
             $scope.sourceFileRelationColumns.push({ name: obj.sourceJoinColumns });
             $scope.targetFileRelationColumns.push({ name: obj.targetJoinColumns });
-
             $scope.relationsData = _.without(arr, _.findWhere(arr, { index: index }));
+        };
+
+
+        $scope.addRelation1 = function () {
+            $scope.errors1 = [];
+            if ($('#sourceRelation1 option:selected').val().trim() == '-1' &&
+                   $('#sourceRelation1 option:selected').val().trim() != undefined) {
+                $scope.errors1.push({ error: 'Please select Source' });
+            }
+
+            if ($('#targetRelation1 option:selected').val().trim() == '-1' &&
+                    $('#targetRelation1 option:selected').val().trim() != undefined) {
+                $scope.errors1.push({ error: 'Please select Target' });
+            }
+
+            if ($('#typeofJoin1 option:selected').val().trim() == '-1' &&
+                    $('#typeofJoin1 option:selected').val().trim() != undefined) {
+                $scope.errors1.push({ error: 'Please select Type of Join' });
+            }
+
+            if ($scope.errors1.length > 0) { return false; }
+
+            $scope.sourceRelation1 = $('#sourceRelation1 option:selected').text().trim();
+            $scope.targetRelation1 = $('#targetRelation1 option:selected').text().trim();
+            $scope.relationsData1.push({
+                index: $scope.relationsData1.length,
+                source: $scope.sourceFileName2,
+                sourceJoinColumns: $('#sourceRelation1 option:selected').text().trim(),
+                target: $scope.targetFileName2,
+                targetJoinColumns: $('#targetRelation1 option:selected').text().trim(),
+                typeofJoin: $('#typeofJoin1 option:selected').text().trim()
+            });
+            var arr = $scope.targetFileRelationColumns1;
+            $scope.targetFileRelationColumns1 = _.without(arr, _.findWhere(arr, { name: $scope.targetRelation1 }));
+
+            var arr1 = $scope.sourceFileRelationColumns1;
+            $scope.sourceFileRelationColumns1 = _.without(arr1, _.findWhere(arr1, { name: $scope.sourceRelation1 }));
+
+            $scope.sourceRelation1 = '';
+            $scope.targetRelation1 = '';
+            $scope.typeofJoin1 = '';
+            $('select#typeofJoin1').prop('selectedIndex', 0);
+        };
+
+        $scope.removeRelation1 = function (index) {
+            var arr = $scope.relationsData1;
+            var obj = _.findWhere(arr, { index: index });
+            $scope.sourceFileRelationColumns1.push({ name: obj.sourceJoinColumns });
+            $scope.targetFileRelationColumns1.push({ name: obj.targetJoinColumns });
+            $scope.relationsData1 = _.without(arr, _.findWhere(arr, { index: index }));
         };
 
         $scope.loadFiles = function () {
             loadsourceFile1();
             loadtargetFile1();
-            //loadsourceFile2();
-            //loadtargetFile2();
+            loadsourceFile2();
+            loadtargetFile2();
         };
 
         function loadsourceFile1() {
@@ -194,9 +216,10 @@
                                 filePosition: count
                             });
                             $scope.sourceFileRelationColumns.push(
-                                {
-                                    name: key.Name
-                                });
+                            {
+                                id: key.Name,
+                                name: key.Name
+                            });
                         }
                     }
                 }, function (data) {
@@ -210,6 +233,7 @@
                     if (data != null && data.AttributeCount > 0) {
                         $scope.sourceFileName2 = data.FileName;
                         $scope.sourceDelimeter2 = data.FileDelimiter;
+                        $scope.sourceFileRelationColumns1 = [];
                         for (var count = 0; count < data.Attributes.length; count++) {
                             var key = data.Attributes[count];
                             $scope.sourceFile2.push({
@@ -218,6 +242,11 @@
                                 RefNo: 'S3',
                                 fileName: $scope.sourceFileName2,
                                 filePosition: count
+                            });
+                            $scope.sourceFileRelationColumns1.push(
+                            {
+                                id: key.Name,
+                                name: key.Name
                             });
                         }
                     }
@@ -245,9 +274,10 @@
                                 filePosition: count
                             });
                             $scope.targetFileRelationColumns.push(
-                             {
-                                 name: key.Name
-                             });
+                            {
+                                id: key.Name,
+                                name: key.Name
+                            });
                         }
 
                     }
@@ -262,6 +292,7 @@
                     if (data != null && data.AttributeCount > 0) {
                         $scope.targetFileName2 = data.FileName;
                         $scope.targetDelimeter2 = data.FileDelimiter;
+                        $scope.targetFileRelationColumns1 = [];
                         for (var count = 0; count < data.Attributes.length; count++) {
                             var key = data.Attributes[count];
                             $scope.targetFile2.push({
@@ -270,6 +301,12 @@
                                 RefNo: 'S4',
                                 fileName: $scope.targetFileName2,
                                 filePosition: count
+                            });
+
+                            $scope.targetFileRelationColumns1.push(
+                            {
+                                id: key.Name,
+                                name: key.Name
                             });
                         }
                     }
@@ -396,7 +433,7 @@
                     'Condition': []
                 }
             };
-            var relation = {'Source': source, 'Target': target}
+            var relation = { 'Source': source, 'Target': target }
             return relation;
         }
 

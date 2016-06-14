@@ -124,87 +124,76 @@
         left: 100%;
     }
 </style>
-<div class="btn-group">
-    <button class="btn" ng-class="{'btn-primary':isCurrentStep(0)}"
-            ng-click="setCurrentStep(0)">
-        List
-    </button>
-    <button class="btn" ng-class="{'btn-primary':isCurrentStep(1)}"
-            ng-click="setCurrentStep(1)">
-        Relationship
-    </button>
-</div>
-<div ng-switch="getCurrentStep()" class="slide-frame">
-    <div ng-switch-when="one" class="wave">
-        <!--<div class="col-md-6">
-            <button type="button" class="btn btn-primary" ng-click="showJSON()">
-                Generate JSON
-            </button>
-        </div>-->
-        <br /><br /><br />
-        <div class="col-md-12">
-            <div class="row simpleDemo">
-                <div class="col-md-3">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                Source : {{ sourceFileName1 }}
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <ul dnd-list="sourceFile1">
-                                <li ng-repeat="item in sourceFile1"
-                                    dnd-draggable="item"
-                                    dnd-moved="sourceFile1.splice($index, 1)"
-                                    dnd-effect-allowed="copy"
-                                    dnd-selected="models.selected = item"
-                                    ng-class="{'selected': models.selected === item}">
-                                    Name: {{item.name}}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                Target : {{ targetFileName1 }}
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <ul dnd-list="targetFile1">
-                                <li ng-repeat="item in targetFile1"
-                                    dnd-draggable="item"
-                                    dnd-moved="targetFile1.splice($index, 1)"
-                                    dnd-effect-allowed="copy"
-                                    dnd-selected="models.selected = item"
-                                    ng-class="{'selected': models.selected === item}">
-                                    Name: {{item.name}}
-                                </li>
-                            </ul>
+
+<form name="compareForm">
+    <div class="btn-group">
+        <button class="btn" ng-class="{'btn-primary':isCurrentStep(0)}"
+                ng-click="setCurrentStep(0)">
+            Step: 1
+        </button>
+        <button class="btn" ng-class="{'btn-primary':isCurrentStep(1)}"
+                ng-click="setCurrentStep(1)">
+            Step: 2
+        </button>
+        <button class="btn" ng-class="{'btn-primary':isCurrentStep(2)}"
+                ng-click="setCurrentStep(2)">
+            Step: 3
+        </button>
+        <button class="btn" ng-class="{'btn-primary':isCurrentStep(3)}"
+                ng-click="setCurrentStep(3)">
+            Step: 4
+        </button>
+    </div>
+    <div ng-switch="getCurrentStep()" class="slide-frame">
+        <div ng-switch-when="stepone" class="wave">
+            <!--<div class="col-md-6">
+                <button type="button" class="btn btn-primary" ng-click="showJSON()">
+                    Generate JSON
+                </button>
+            </div>-->
+            <br /><br /><br />
+            <div class="col-md-12">
+                <div class="row simpleDemo">
+                    <div class="col-md-3">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    Source : {{ sourceFileName1 }}
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul dnd-list="sourceFile1">
+                                    <li ng-repeat="item in sourceFile1"
+                                        dnd-draggable="item"
+                                        dnd-moved="sourceFile1.splice($index, 1)"
+                                        dnd-effect-allowed="copy"
+                                        dnd-selected="models.selected = item"
+                                        ng-class="{'selected': models.selected === item}">
+                                        Name: {{item.name}}
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row simpleDemo">
-                <div class="col-md-6">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                Final Source
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <ul dnd-list="finalSource">
-                                <li ng-repeat="item in finalSource"
-                                    dnd-draggable="item"
-                                    dnd-effect-allowed="copy"
-                                    dnd-selected="models.selected = item"
-                                    ng-class="{'selected': models.selected === item}">
-                                    Name: {{item.name}} ({{ item.fileName }})
-                                </li>
-                            </ul>
+                    <div class="col-md-3">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    Target : {{ targetFileName1 }}
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul dnd-list="targetFile1">
+                                    <li ng-repeat="item in targetFile1"
+                                        dnd-draggable="item"
+                                        dnd-moved="targetFile1.splice($index, 1)"
+                                        dnd-effect-allowed="copy"
+                                        dnd-selected="models.selected = item"
+                                        ng-class="{'selected': models.selected === item}">
+                                        Name: {{item.name}}
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -213,12 +202,12 @@
                         <div class="panel panel-info">
                             <div class="panel-heading">
                                 <h3 class="panel-title">
-                                    Final Target
+                                    Final Source
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                <ul dnd-list="finalTarget">
-                                    <li ng-repeat="item in finalTarget"
+                                <ul dnd-list="finalSource">
+                                    <li ng-repeat="item in finalSource"
                                         dnd-draggable="item"
                                         dnd-effect-allowed="copy"
                                         dnd-selected="models.selected = item"
@@ -229,110 +218,304 @@
                             </div>
                         </div>
                     </div>
+                    <!--<div class="row simpleDemo">
+                        <div class="col-md-6">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        Final Target
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <ul dnd-list="finalTarget">
+                                        <li ng-repeat="item in finalTarget"
+                                            dnd-draggable="item"
+                                            dnd-effect-allowed="copy"
+                                            dnd-selected="models.selected = item"
+                                            ng-class="{'selected': models.selected === item}">
+                                            Name: {{item.name}} ({{ item.fileName }})
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
                 </div>
             </div>
+        </div>
+        <div ng-switch-when="steptwo" class="wave">
+            <br /><br /><br />
+            <div class="col-md-12">
+                <div class="row simpleDemo">
+                    <div class="col-md-3">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    Source : {{ sourceFileName2 }}
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul dnd-list="sourceFile2">
+                                    <li ng-repeat="item in sourceFile2"
+                                        dnd-draggable="item"
+                                        dnd-moved="sourceFile2.splice($index, 1)"
+                                        dnd-effect-allowed="copy"
+                                        dnd-selected="models.selected = item"
+                                        ng-class="{'selected': models.selected === item}">
+                                        Name: {{item.name}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    Target : {{ targetFileName2 }}
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul dnd-list="targetFile2">
+                                    <li ng-repeat="item in targetFile2"
+                                        dnd-draggable="item"
+                                        dnd-moved="targetFile2.splice($index, 1)"
+                                        dnd-effect-allowed="copy"
+                                        dnd-selected="models.selected = item"
+                                        ng-class="{'selected': models.selected === item}">
+                                        Name: {{item.name}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row simpleDemo">
+                    <!--<div class="col-md-6">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    Final Source
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul dnd-list="finalSource">
+                                    <li ng-repeat="item in finalSource"
+                                        dnd-draggable="item"
+                                        dnd-effect-allowed="copy"
+                                        dnd-selected="models.selected = item"
+                                        ng-class="{'selected': models.selected === item}">
+                                        Name: {{item.name}} ({{ item.fileName }})
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="row simpleDemo">
+                        <div class="col-md-6">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        Final Target
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <ul dnd-list="finalTarget">
+                                        <li ng-repeat="item in finalTarget"
+                                            dnd-draggable="item"
+                                            dnd-effect-allowed="copy"
+                                            dnd-selected="models.selected = item"
+                                            ng-class="{'selected': models.selected === item}">
+                                            Name: {{item.name}} ({{ item.fileName }})
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-switch-when="stepthree" class="wave">
+            <br /><br />
+            <ul ng-if="errors.length > 0">
+                <li ng-repeat="e in errors" style="color:red;">
+                    {{e.error}}
+                </li>
+            </ul>
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <label for="sourceRelation">Source:</label>
+                    <select id="sourceRelation"
+                            name="sourceRelation"
+                            class="form-control">
+                        <option value="-1">Please Select</option>
+                        <option ng-repeat="r in sourceFileRelationColumns"
+                                value="{{r.name}}">
+                            {{r.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="targetRelation">Target:</label>
+                    <select id="targetRelation"
+                            name="targetRelation"
+                            class="form-control">
+                        <option value="-1">Please Select</option>
+                        <option ng-repeat="r in targetFileRelationColumns"
+                                value="{{r.name}}">
+                            {{r.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <label for="typeofJoin">Type of Join:</label>
+                    <select id="typeofJoin"
+                            class="form-control col-xs-4">
+                        <option value="-1">Please Select</option>
+                        <option ng-repeat="r in joins"
+                                value="{{r.name}}">
+                            {{r.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label ng-hide="{{1==1}}">dfd</label><br />
+                    <button type="button" class="btn-primary btn"
+                            ng-click="addRelation()">
+                        Add
+                    </button>
+                </div>
+            </div><br /><br /><br />
+            <br /><br /><br />
+            <div class="col-md-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Join Columns</th>
+                            <th>Join Columns</th>
+                            <th>Target</th>
+                            <th>Action on Columns</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="rel in relationsData">
+                            <td>{{sourceFileName1}}</td>
+                            <td>{{rel.sourceJoinColumns}}</td>
+                            <td>{{rel.targetJoinColumns}}</td>
+                            <td>{{targetFileName1}}</td>
+                            <td>
+                                <button type="button"
+                                        class="btn-primary btn btn-small"
+                                        ng-click="removeRelation(rel.index)">
+                                    Remove
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-if="relationsData.length == 0">
+                            <td colspan="5">No Records</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br /><br /><br />
+        </div>
+        <div ng-switch-when="stepfour" class="wave">
+            <br /><br />
+            <ul ng-if="errors1.length > 0">
+                <li ng-repeat="e in errors1" style="color:red;">
+                    {{e.error}}
+                </li>
+            </ul>
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <label for="sourceRelation1">Source:</label>
+                    <select id="sourceRelation1"
+                            name="sourceRelation1"
+                            class="form-control">
+                        <option value="-1">Please Select</option>
+                        <option ng-repeat="r in sourceFileRelationColumns1"
+                                value="{{r.name}}">
+                            {{r.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="targetRelation1">Target:</label>
+                    <select id="targetRelation1"
+                            name="targetRelation1"
+                            class="form-control">
+                        <option value="-1">Please Select</option>
+                        <option ng-repeat="r in targetFileRelationColumns1"
+                                value="{{r.name}}">
+                            {{r.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <label for="typeofJoin1">Type of Join:</label>
+                    <select id="typeofJoin1"
+                            class="form-control col-xs-4">
+                        <option value="-1">Please Select</option>
+                        <option ng-repeat="r in joins"
+                                value="{{r.name}}">
+                            {{r.name}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label ng-hide="{{1==1}}">dfd</label><br />
+                    <button type="button" class="btn-primary btn"
+                            ng-click="addRelation1()">
+                        Add
+                    </button>
+                </div>
+            </div><br /><br /><br />
+            <br /><br /><br />
+            <div class="col-md-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Join Columns</th>
+                            <th>Join Columns</th>
+                            <th>Target</th>
+                            <th>Action on Columns</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="rel in relationsData1">
+                            <td>{{sourceFileName2}}</td>
+                            <td>{{rel.sourceJoinColumns}}</td>
+                            <td>{{rel.targetJoinColumns}}</td>
+                            <td>{{targetFileName2}}</td>
+                            <td>
+                                <button type="button"
+                                        class="btn-primary btn btn-small"
+                                        ng-click="removeRelation1(rel.index)">
+                                    Remove
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-if="relationsData1.length == 0">
+                            <td colspan="5">No Records</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br /><br /><br />
         </div>
     </div>
-    <div ng-switch-when="two" class="wave">
-        <br /><br />
-        <div class="col-md-12">
-            <div class="col-md-3">
-                <div angucomplete-alt id="ex1"
-                     placeholder="Search Join Column for Source"
-                     maxlength="50"
-                     pause="100"
-                     selected-object="sourceRelation"
-                     local-data="sourceFileRelationColumns"
-                     search-fields="name"
-                     title-field="name"
-                     minlength="1"
-                     input-class="form-control form-control-small"
-                     match-class="highlight"
-                     clear-selected="true">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div angucomplete-alt id="ex2"
-                     placeholder="Search Join Column for Target"
-                     maxlength="50"
-                     pause="100"
-                     selected-object="targetRelation"
-                     local-data="targetFileRelationColumns"
-                     search-fields="name"
-                     title-field="name"
-                     minlength="1"
-                     input-class="form-control form-control-small"
-                     match-class="highlight"
-                     clear-selected="true">
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <select id="typeofJoin" class="form-control col-xs-4" ng-model="typeofJoin">
-                    <option value="Type of Join" selected disabled>Type of Join</option>
-                    <option value="Inner">Inner</option>
-                    <option value="Outer">Outer</option>
-                </select>
-            </div>
-
-            <div class="col-md-4">
-                <button type="button" class="btn-primary btn"
-                        ng-click="addRelation()">
-                    Add
-                </button>
-            </div>
-
-        </div>
-        <br /><br /><br /><br /><br /><br />
-        <div class="col-md-12">
-            <div class="col-md-3">
-                <label ng-if="sourceSelectedJoinColumn">
-                    Selected Source: {{sourceSelectedJoinColumn}}
-                </label><br />
-                <label ng-if="targetSelectedJoinColumn">
-                    Selected Target: {{targetSelectedJoinColumn}}
-                </label><br />
-            </div>
-        </div><br /><br /><br />
-        <div class="col-md-12">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Source</th>
-                        <th>Source Join Columns</th>
-                        <th>Target Join Columns</th>
-                        <th>Target</th>
-                        <th>Action on Columns</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="rel in relationsData">
-                        <td>{{sourceFileName1}}</td>
-                        <td>{{rel.sourceJoinColumns}}</td>
-                        <td>{{rel.targetJoinColumns}}</td>
-                        <td>{{targetFileName1}}</td>
-                        <td>
-                            <button type="button"
-                                    class="btn-primary btn btn-small"
-                                    ng-click="removeRelation($index)">
-                                Remove
-                            </button>
-                        </td>
-                    </tr>
-                    <tr ng-if="relationsData.length == 0">
-                        <td colspan="5">No Records</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <br /><br /><br />
+    <div class="modal-footer">
+        <a class="btn btn-default" ng-click="handlePrevious()" ng-if="!isFirstStep()">
+            Back
+        </a>
+        <a class="btn btn-primary" ng-click="handleNext()">
+            {{ getNextLabel() }}
+        </a>
     </div>
-</div>
-<div class="modal-footer">
-    <a class="btn btn-default" ng-click="handlePrevious()" ng-if="!isFirstStep()">
-        Back
-    </a>
-    <a class="btn btn-primary" ng-click="handleNext()">
-        {{ getNextLabel() }}
-    </a>
-</div>
 
+
+</form>
