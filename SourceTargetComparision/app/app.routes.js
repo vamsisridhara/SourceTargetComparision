@@ -7,7 +7,6 @@
             requireBase: false
         });
         $urlRouterProvider.otherwise('/home');
-        //$locationProvider.html5Mode(true);
         $stateProvider.state('home', {
             url: '/home',
             templateUrl: './home.html'
