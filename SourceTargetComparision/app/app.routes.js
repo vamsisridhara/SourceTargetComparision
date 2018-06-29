@@ -14,6 +14,10 @@
             url: '/compare',
             templateUrl: './app/components/compare/compare.html',
             controller: 'compareController'
+        }).state('uigrid', {
+            url: '/uigrid',
+            templateUrl: './app/components/uigrid/addnewrecords.html',
+            controller: 'uigridController'
         });
     });
 }());

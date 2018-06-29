@@ -1,0 +1,12 @@
+﻿{
+  "data": [
+    {
+      "id": "1",
+      "name": "categories"
+    },
+    {
+      "id": "2",
+      "name": "products"
+    }
+  ]
+}

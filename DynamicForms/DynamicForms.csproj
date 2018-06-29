@@ -9,13 +9,13 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CD13270E-853A-469B-8CB4-62B58C653890}</ProjectGuid>
+    <ProjectGuid>{3D9180F6-7AA1-4016-B180-752B0758AF26}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SourceTargetComparision</RootNamespace>
-    <AssemblyName>SourceTargetComparision</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>DynamicForms</RootNamespace>
+    <AssemblyName>DynamicForms</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -66,31 +66,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\components\uigrid\addnewrecords.html" />
-    <Content Include="app\components\uigrid\newrecordsctrl.js" />
-    <Content Include="app\components\uigrid\newrecordsservice.js" />
-    <Content Include="assets\css\angucomplete.css" />
-    <Content Include="assets\css\angular-material.min.css" />
-    <Content Include="assets\css\compare.css" />
-    <Content Include="assets\css\custom.min.css" />
-    <Content Include="assets\css\styles.css" />
-    <Content Include="assets\libs\angucomplete-alt.min.js" />
-    <Content Include="assets\libs\angular-drag-and-drop-lists.js" />
-    <Content Include="assets\libs\angular-local-storage.js" />
-    <Content Include="assets\libs\bootstrap.min.js" />
-    <Content Include="assets\js\custom.js" />
-    <Content Include="assets\libs\angular-animate.min.js" />
-    <Content Include="assets\libs\angular-material.min.js" />
-    <Content Include="assets\libs\angular-messages.min.js" />
-    <Content Include="assets\libs\underscore-min.js" />
-    <Content Include="home.html" />
     <Content Include="packages.config" />
-    <Content Include="app\components\compare\test_s_md_2.json" />
-    <Content Include="app\components\compare\test_t_md_2.json" />
-    <Content Include="app\components\compare\test_s_md_1.json" />
-    <Content Include="app\components\compare\test_t_md_1.json" />
-    <Content Include="assets\libs\angular-touch.js" />
-    <Content Include="app\components\uigrid\tables.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -99,30 +75,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\app.module.js" />
-    <Content Include="app\app.routes.js" />
-    <Content Include="app\components\compare\compare.html" />
-    <Content Include="app\components\compare\comparecontroller.js" />
-    <Content Include="app\components\compare\compareservice.js" />
-    <Content Include="assets\css\bootstrap-theme.min.css" />
-    <Content Include="assets\css\bootstrap.min.css" />
-    <Content Include="assets\css\ng-sortable.min.css" />
-    <Content Include="assets\css\ng-sortable.style.min.css" />
-    <Content Include="assets\libs\angular-route.min.js" />
-    <Content Include="assets\libs\angular-ui-router.min.js" />
-    <Content Include="assets\libs\angular.min.js" />
-    <Content Include="assets\libs\jquery-2.1.4.min.js" />
-    <Content Include="assets\libs\ng-sortable.min.js" />
+    <Content Include="example.js" />
     <Content Include="index.html" />
-    <Content Include="test.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="app\shared\" />
-    <Folder Include="assets\img\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -137,9 +95,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52369</DevelopmentServerPort>
+          <DevelopmentServerPort>55797</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/SourceTargetComparision</IISUrl>
+          <IISUrl>http://localhost/DynamicForms</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

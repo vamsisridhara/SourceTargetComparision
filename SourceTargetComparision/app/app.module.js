@@ -2,7 +2,7 @@
     'use strict';
     var app = angular.module('sourcetargetapp',
                                 ['ui.router', 'ngAnimate','ui.bootstrap',
-                                 'sourcetargetroute', 'compare', 'dndLists']);
+                                 'sourcetargetroute', 'compare', 'dndLists', 'newrecords']);
     app.config(function ($httpProvider) {
 
 

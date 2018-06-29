@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceTargetComparision", "SourceTargetComparision\SourceTargetComparision.csproj", "{CD13270E-853A-469B-8CB4-62B58C653890}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicForms", "DynamicForms\DynamicForms.csproj", "{3D9180F6-7AA1-4016-B180-752B0758AF26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CD13270E-853A-469B-8CB4-62B58C653890}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD13270E-853A-469B-8CB4-62B58C653890}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD13270E-853A-469B-8CB4-62B58C653890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D9180F6-7AA1-4016-B180-752B0758AF26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D9180F6-7AA1-4016-B180-752B0758AF26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D9180F6-7AA1-4016-B180-752B0758AF26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D9180F6-7AA1-4016-B180-752B0758AF26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
