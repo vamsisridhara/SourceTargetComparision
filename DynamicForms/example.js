@@ -1,12 +1,41 @@
 ﻿(function () {
     'use strict';
-    var app = angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-    app.controller('ModalDemoCtrl', function ($uibModal, $log, $document) {
+    var app = angular.module('ui.bootstrap.demo', ['ngAnimate',
+                                                    'ngSanitize', 'ui.bootstrap',
+                                                    'newrecords', 'newrecordsService',
+                                                    'ui.grid']);
+    app.controller('ModalDemoCtrl', ['$uibModal', '$log', '$document', 'newrecordsservicefactory', ModalDemoCtrlFunction]);
+    function ModalDemoCtrlFunction($uibModal, $log, $document, newrecordsservicefactory) {
         var $ctrl = this;
         $ctrl.items = ['item1', 'item2', 'item3'];
-
+        $ctrl.tables = [];
+        $ctrl.selectedTableId = '';
+        $ctrl.tableColumns = [];
         $ctrl.animationsEnabled = true;
 
+        $ctrl.finalData = [];
+        $ctrl.getTables = function () {
+            newrecordsservicefactory.getTables().then(function (data) {
+                if (data) {
+                    $ctrl.tables = data.data;
+                    // console.log($ctrl.tables.data);
+                }
+            }, function (error) {
+                console.log(error);
+            });
+        };
+        $ctrl.getTableColumns = function () {
+            $ctrl.tableColumns = newrecordsservicefactory.getTableColumns($ctrl.selectedTableId);
+            //newrecordsservicefactory.getTableColumns($ctrl.selectedTableId).then(function (data) {
+            //    if (data) {
+            //        $ctrl.tableColumns = data;
+            //        console.log(JSON.stringify(data));
+            //    }
+            //}, function (error) {
+            //    console.log(error);
+            //});
+        };
+        $ctrl.getTables();
         $ctrl.open = function (size, parentSelector) {
             var parentElem = parentSelector ?
               angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
@@ -22,11 +51,18 @@
                 resolve: {
                     items: function () {
                         return $ctrl.items;
+                    }, tableColumns: function () {
+                        $ctrl.tableColumns = newrecordsservicefactory.getTableColumns($ctrl.selectedTableId);
+                        return $ctrl.tableColumns;
                     }
                 }
             });
-
             modalInstance.result.then(function (selectedItem) {
+                for (var count = 0; count < selectedItem.length; count++) {
+                    var val = selectedItem[count];
+                    
+                }
+                console.log($ctrl.finalData);
                 $ctrl.selected = selectedItem;
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
@@ -36,20 +72,20 @@
         $ctrl.toggleAnimation = function () {
             $ctrl.animationsEnabled = !$ctrl.animationsEnabled;
         };
-    });
+    }
 
     // Please note that $uibModalInstance represents a modal window (instance) dependency.
     // It is not the same as the $uibModal service used above.
 
-    app.controller('ModalInstanceCtrl', function ($uibModalInstance, items) {
+    app.controller('ModalInstanceCtrl', function ($uibModalInstance, items, tableColumns) {
         var $ctrl = this;
         $ctrl.items = items;
         $ctrl.selected = {
             item: $ctrl.items[0]
         };
-
+        $ctrl.tableColumns = tableColumns;
         $ctrl.ok = function () {
-            $uibModalInstance.close($ctrl.selected.item);
+            $uibModalInstance.close($ctrl.tableColumns);
         };
 
         $ctrl.cancel = function () {

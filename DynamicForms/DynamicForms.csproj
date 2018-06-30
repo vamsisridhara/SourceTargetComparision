@@ -66,7 +66,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="angular-touch.js" />
+    <Content Include="newrecordsctrl.js" />
+    <Content Include="newrecordsservice.js" />
     <Content Include="packages.config" />
+    <Content Include="tables.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

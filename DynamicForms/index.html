@@ -2,34 +2,67 @@
 <html ng-app="ui.bootstrap.demo">
 <head>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+    <script src="angular-touch.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script src="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.css" />
+    <script src="newrecordsctrl.js"></script>
+    <script src="newrecordsservice.js"></script>
     <script src="example.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div ng-controller="ModalDemoCtrl as $ctrl" class="modal-demo">
+        <form name="myForm">
+            <label for="ngvalueselect">select table:</label>
+            <select name="ngvalueselect" ng-model="$ctrl.selectedTableId" ng-change="$ctrl.getTableColumns()">
+                <option ng-repeat="option in $ctrl.tables.data" ng-value="option.name">
+                    {{option.name}}
+                </option>
+            </select>
+
+        </form>
         <script type="text/ng-template" id="myModalContent.html">
             <div class="modal-header">
                 <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
             </div>
             <div class="modal-body" id="modal-body">
-                <ul>
-                    <li ng-repeat="item in $ctrl.items">
-                        <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
-                    </li>
-                </ul>
-                Selected: <b>{{ $ctrl.selected.item }}</b>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
-                <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                <form name="userForm" novalidate>
+                    <div class="form-group" 
+                         ng-repeat="column in $ctrl.tableColumns">
+                        <label>{{ column.fieldName }}</label>
+                        <input type="text" class="form-control"
+                               name="email" ng-model="column.columnValue" required />
+                        <p ng-show="userForm.email.$invalid && userForm.email.$dirty">
+                            This field is required
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary"
+                                type="button"
+                                ng-disabled="userForm.$invalid"
+                                ng-click="$ctrl.ok()">
+                            Submit
+                        </button>
+                        <button class="btn btn-warning" type="button"
+                                ng-click="$ctrl.cancel()">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
             </div>
         </script>
         <button type="button" class="btn btn-default" ng-click="$ctrl.open()">Open me!</button>
         <div ng-show="$ctrl.selected">Selection from a modal: {{ $ctrl.selected }}</div>
         <div class="modal-parent">
+        </div>
+        <div ng-if="$ctrl.finalData && $ctrl.finalData.length > 0">
+            <div id="grid1"
+                 ui-grid="{ data: $ctrl.finalData }"
+                 class="grid">
+            </div>
         </div>
     </div>
 </body>
