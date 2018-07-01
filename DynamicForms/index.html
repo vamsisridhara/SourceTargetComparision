@@ -58,11 +58,8 @@
         <div ng-show="$ctrl.selected">Selection from a modal: {{ $ctrl.selected }}</div>
         <div class="modal-parent">
         </div>
-        <div ng-if="$ctrl.finalData && $ctrl.finalData.length > 0">
-            <div id="grid1"
-                 ui-grid="{ data: $ctrl.finalData }"
-                 class="grid">
-            </div>
+        <div ng-if="$ctrl.myData && $ctrl.myData.length > 0">
+            <div id="grid1" ui-grid="$ctrl.gridOptions" ui-grid-edit class="grid"></div>
         </div>
     </div>
 </body>

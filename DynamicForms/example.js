@@ -3,7 +3,8 @@
     var app = angular.module('ui.bootstrap.demo', ['ngAnimate',
                                                     'ngSanitize', 'ui.bootstrap',
                                                     'newrecords', 'newrecordsService',
-                                                    'ui.grid']);
+                                                    'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav',
+                                                    'ngTouch', 'ui.grid.selection', 'ui.grid.pagination']);
     app.controller('ModalDemoCtrl', ['$uibModal', '$log', '$document', 'newrecordsservicefactory', ModalDemoCtrlFunction]);
     function ModalDemoCtrlFunction($uibModal, $log, $document, newrecordsservicefactory) {
         var $ctrl = this;
@@ -14,6 +15,48 @@
         $ctrl.animationsEnabled = true;
 
         $ctrl.finalData = [];
+
+        $ctrl.myData = [
+          {
+              'first-name': 'Cox',
+              friends: ['friend0'],
+              address: { street: '301 Dove Ave', city: 'Laurel', zip: '39565' },
+              getZip: function () { return this.address.zip; },
+              isActive: false
+          }
+        ];
+
+        $ctrl.gridOptions = {
+            enableRowSelection: true,
+            enableSorting: true,
+            multiSelect: true,
+            columnDefs: [
+              { name: 'firstName', field: 'first-name', enableCellEdit: true },
+              { name: '1stFriend', field: 'friends[0]', enableCellEdit: true },
+              { name: 'city', field: 'address.city', enableCellEdit: true },
+              { name: 'getZip', field: 'getZip()', enableCellEdit: false },
+              {
+                  name: 'isActive', displayName: 'Active', type: 'boolean',
+                  cellTemplate: '<input type="checkbox" ng-model="row.entity.isActive">'
+              }
+            ],
+            data: '$ctrl.myData',
+            //onRegisterApi: function (gridApi) {
+            //    console.log(gridApi);
+            //    //set gridApi on scope
+            //    $ctrl.gridApi = gridApi;
+            //    gridApi.selection.on.rowSelectionChanged($ctrl, function (row) {
+            //        var msg = 'row selected ' + row.isSelected;
+            //        $log.log(msg);
+            //    });
+
+            //    gridApi.selection.on.rowSelectionChangedBatch($ctrl, function (rows) {
+            //        var msg = 'rows changed ' + rows.length;
+            //        $log.log(msg);
+            //    });
+            //}
+        };
+        
         $ctrl.getTables = function () {
             newrecordsservicefactory.getTables().then(function (data) {
                 if (data) {
@@ -60,7 +103,7 @@
             modalInstance.result.then(function (selectedItem) {
                 for (var count = 0; count < selectedItem.length; count++) {
                     var val = selectedItem[count];
-                    
+
                 }
                 console.log($ctrl.finalData);
                 $ctrl.selected = selectedItem;
